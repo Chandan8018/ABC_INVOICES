@@ -9,6 +9,8 @@ import { Input } from "../components/ui/input";
 import { Update } from "../data/data";
 import { Button } from "../components/ui/moving-border";
 import { cn } from "../utils/cn";
+import { Select } from "../components/ui/Select";
+import { TextArea } from "../components/ui/TextArea";
 
 function UpdateQuiz() {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,7 +23,7 @@ function UpdateQuiz() {
 
   useEffect(() => {
     try {
-      const fetchQuiz = async () => {
+      const fetchCustomer = async () => {
         const res = await fetch(
           `/api/customer/getCustomers?customerId=${customerId}`
         );
@@ -32,26 +34,29 @@ function UpdateQuiz() {
         }
         if (res.ok) {
           setPublishError(null);
-          setFormData(data.quizzes[0]);
+          setFormData(data.customers[0]);
         }
       };
 
-      fetchQuiz();
+      fetchCustomer();
     } catch (error) {
       console.log(error.message);
     }
-  }, [quizId]);
+  }, [customerId]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`/api/quiz/update/${formData._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `/api/customer/update/${formData._id}/${currentUser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
@@ -61,7 +66,7 @@ function UpdateQuiz() {
       if (res.ok) {
         setPublishError(null);
         setLoading(false);
-        navigate("/dashboard?tab=view-quiz");
+        navigate("/dashboard?tab=view-customers");
       }
     } catch (error) {
       setPublishError("Something went wrong");
@@ -86,80 +91,107 @@ function UpdateQuiz() {
         </p>
         <form className='mt-4' onSubmit={handleSubmit}>
           <LabelInputContainer>
-            <Label htmlFor='question'>Quiz Question</Label>
+            <Label htmlFor='name'>Customer Name</Label>
             <Input
-              id='question'
-              placeholder='Enter Quiz...'
+              id='name'
               type='text'
               onChange={(e) =>
-                setFormData({ ...formData, question: e.target.value })
+                setFormData({ ...formData, name: e.target.value })
               }
-              value={formData.question}
+              value={formData.name}
             />
           </LabelInputContainer>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
             <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option1'>Option1</Label>
+              <Label htmlFor='email'>Email</Label>
               <Input
-                id='option1'
-                placeholder='Enter Option1...'
+                id='email'
                 type='text'
                 onChange={(e) =>
-                  setFormData({ ...formData, option1: e.target.value })
+                  setFormData({ ...formData, email: e.target.value })
                 }
-                value={formData.option1}
+                value={formData.email}
               />
             </LabelInputContainer>
             <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option2'>Option2</Label>
+              <Label htmlFor='phone'>Phone Number</Label>
               <Input
-                id='option2'
-                placeholder='Enter Option2...'
+                id='phone'
                 type='text'
                 onChange={(e) =>
-                  setFormData({ ...formData, option2: e.target.value })
+                  setFormData({ ...formData, phone: e.target.value })
                 }
-                value={formData.option2}
-              />
-            </LabelInputContainer>
-
-            <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option3'>Option3</Label>
-              <Input
-                id='option3'
-                placeholder='Enter Option3...'
-                type='text'
-                onChange={(e) =>
-                  setFormData({ ...formData, option3: e.target.value })
-                }
-                value={formData.question}
-              />
-            </LabelInputContainer>
-            <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option4'>Option4</Label>
-              <Input
-                id='option4'
-                placeholder='Enter Option4...'
-                type='text'
-                onChange={(e) =>
-                  setFormData({ ...formData, option4: e.target.value })
-                }
-                value={formData.option4}
+                value={formData.phone}
               />
             </LabelInputContainer>
           </div>
+
           <LabelInputContainer className='mb-4'>
-            <Label htmlFor='answer'>Answer</Label>
-            <Input
-              id='answer'
-              placeholder='Enter Answer...'
+            <Label htmlFor='address'>Address</Label>
+            <TextArea
+              id='address'
               type='text'
               onChange={(e) =>
-                setFormData({ ...formData, answer: e.target.value })
+                setFormData({ ...formData, address: e.target.value })
               }
-              value={formData.answer}
+              value={formData.address}
             />
           </LabelInputContainer>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
+            <LabelInputContainer className='mb-4'>
+              <Label htmlFor='state'>State</Label>
+              <Select
+                id='state'
+                type='text'
+                onChange={(e) =>
+                  setFormData({ ...formData, state: e.target.value })
+                }
+                value={formData.state}
+              >
+                <option value=''>Select State</option>
+                <option value='Gujarat'>Gujarat</option>
+                <option value='Maharashtra'>Maharashtra</option>
+                <option value='Odisha'>Odisha</option>
+                <option value='Rajasthan'>Rajasthan</option>
+                <option value='Uttar Pradesh'>Uttar Pradesh</option>
+                <option value='Delhi'>Delhi</option>
+                <option value='Karnataka'>Karnataka</option>
+                <option value='Tamilnadu'>Tamilnadu</option>
+                <option value='Kerala'>Kerala</option>
+                <option value='West Bengal'>West Bengal</option>
+                <option value='Haryana'>Haryana</option>
+                <option value='Madhya Pradesh'>Madhya Pradesh</option>
+                <option value='Punjab'>Punjab</option>
+                <option value='Jharkhand'>Jharkhand</option>
+                <option value='Bihar'>Bihar</option>
+                <option value='Chhattisgarh'>Chhattisgarh</option>
+                <option value='Other'>Other</option>
+              </Select>
+            </LabelInputContainer>
+
+            <LabelInputContainer className='mb-4'>
+              <Label htmlFor='country'>Country</Label>
+              <Select
+                id='country'
+                type='text'
+                onChange={(e) =>
+                  setFormData({ ...formData, country: e.target.value })
+                }
+                value={formData.country}
+              >
+                <option value=''>Select Country</option>
+                <option value='India'>India</option>
+                <option value='USA'>USA</option>
+                <option value='UK'>UK</option>
+                <option value='Australia'>Australia</option>
+                <option value='Canada'>Canada</option>
+                <option value='Japan'>Japan</option>
+                <option value='China'>China</option>
+                <option value='Other'>Other</option>
+              </Select>
+            </LabelInputContainer>
+          </div>
           {publishError && (
             <Alert className='mt-5' color='failure'>
               {publishError}
@@ -176,7 +208,7 @@ function UpdateQuiz() {
                 <span className='pl-3'>Loading...</span>
               </>
             ) : (
-              "Update Quiz"
+              "Update"
             )}
 
             <BottomGradient />

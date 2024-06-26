@@ -23,7 +23,6 @@ function ViewCustomers() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [customerIdToDelete, setCustomerIdToDelete] = useState("");
-  console.log(customers);
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
@@ -106,7 +105,7 @@ function ViewCustomers() {
               <Table hoverable className='shadow-md'>
                 <Table.Head>
                   <Table.HeadCell className='bg-[#abb1bb]'>
-                    customerId
+                    Sl no
                   </Table.HeadCell>
                   <Table.HeadCell className='bg-[#abb1bb]'>Name</Table.HeadCell>
                   <Table.HeadCell className='bg-[#abb1bb]'>
@@ -122,48 +121,54 @@ function ViewCustomers() {
                     State
                   </Table.HeadCell>
                   <Table.HeadCell className='bg-[#abb1bb]'>
+                    Country
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
                     Delete
                   </Table.HeadCell>
                   <Table.HeadCell className='bg-[#abb1bb]'>Edit</Table.HeadCell>
                 </Table.Head>
-                {customers.map((customer) => (
-                  <Table.Body className='divide-y' key={customer._id}>
-                    <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800 '>
-                      <Table.Cell>{customer._id}</Table.Cell>
-                      <Table.Cell>{customer.name}</Table.Cell>
-                      <Table.Cell>{customer.phone}</Table.Cell>
-                      <Table.Cell>{customer.email}</Table.Cell>
-                      <Table.Cell>{customer.address}</Table.Cell>
-                      <Table.Cell>{customer.state}</Table.Cell>
-                      <Table.Cell>
-                        <Button
-                          borderRadius='1.75rem'
-                          className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 cursor-pointer'
-                          type='button'
-                          onClick={() => {
-                            setShowModal(true);
-                            setCustomerIdToDelete(customer._id);
-                          }}
-                        >
-                          <MdDelete className='w-7 h-7 text-[#ff5555]' />
-                        </Button>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Link
-                          to={`/update-customer/${customer._id}`}
-                          className='text-teal-500'
-                        >
+                {customers.map((customer, index) => (
+                  <>
+                    <Table.Body className='divide-y' key={customer._id}>
+                      <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800 '>
+                        <Table.Cell>{index + 100}</Table.Cell>
+                        <Table.Cell>{customer.name}</Table.Cell>
+                        <Table.Cell>{customer.phone}</Table.Cell>
+                        <Table.Cell>{customer.email}</Table.Cell>
+                        <Table.Cell>{customer.address}</Table.Cell>
+                        <Table.Cell>{customer.state}</Table.Cell>
+                        <Table.Cell>{customer.country}</Table.Cell>
+                        <Table.Cell>
                           <Button
                             borderRadius='1.75rem'
-                            className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 w-8 cursor-pointer'
+                            className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 cursor-pointer'
                             type='button'
+                            onClick={() => {
+                              setShowModal(true);
+                              setCustomerIdToDelete(customer._id);
+                            }}
                           >
-                            <FaEdit className='w-6 h-6 text-blue-500' />
+                            <MdDelete className='w-7 h-7 text-[#ff5555]' />
                           </Button>
-                        </Link>
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Link
+                            to={`/update-customer/${customer._id}`}
+                            className='text-teal-500'
+                          >
+                            <Button
+                              borderRadius='1.75rem'
+                              className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 w-8 cursor-pointer'
+                              type='button'
+                            >
+                              <FaEdit className='w-6 h-6 text-blue-500' />
+                            </Button>
+                          </Link>
+                        </Table.Cell>
+                      </Table.Row>
+                    </Table.Body>
+                  </>
                 ))}
               </Table>
               {showMore && (
@@ -187,13 +192,21 @@ function ViewCustomers() {
               <div className='text-center'>
                 <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
                 <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
-                  Are you sure you want to delete this post?
+                  Are you sure you want to delete this Customer?
                 </h3>
                 <div className='flex justify-center gap-4'>
-                  <Button color='failure' onClick={handleDeleteQize}>
+                  <Button
+                    borderRadius='4px'
+                    className='bg-red-500 text-white border-slate-800 h-10 rounded-[3px]'
+                    onClick={handleDeleteQize}
+                  >
                     Yes, I'm sure
                   </Button>
-                  <Button color='gray' onClick={() => setShowModal(false)}>
+                  <Button
+                    borderRadius='4px'
+                    className='bg-transparent dark:text-white text-black border-slate-800 h-10 rounded-[3px]'
+                    onClick={() => setShowModal(false)}
+                  >
                     No, cancel
                   </Button>
                 </div>
