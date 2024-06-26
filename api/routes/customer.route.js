@@ -3,15 +3,15 @@ import { verifyToken } from "../utils/verifyUser.js";
 import {
   createCustomer,
   deleteCustomer,
-  getCustomer,
+  getCustomers,
   updateCustomer,
 } from "../controllers/customer.controller.js";
 
 const router = express.Router();
 
 router.post("/create", verifyToken, createCustomer);
-router.post("/get/:id", getCustomer);
-router.post("/update", verifyToken, updateCustomer);
-router.post("/delete/:id", verifyToken, deleteCustomer);
+router.get("/getCustomers", getCustomers);
+router.put("/update/:customerId/:userId", verifyToken, updateCustomer);
+router.delete("/delete/:customerId/:userId", verifyToken, deleteCustomer);
 
 export default router;
