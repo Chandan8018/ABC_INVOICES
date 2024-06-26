@@ -64,10 +64,10 @@ function SideBarComp() {
               <Link to='/'>
                 <span className='flex justify-start items-center whitespace-nowrap text-xl font-semibold dark:text-white pl-7'>
                   <span className='bg-blue-500 dark:bg-[#ff5555] rounded-xl rounded-tr-none rounded-br-none py-1 px-1 text-xl font-bold'>
-                    Online
+                    ABC
                   </span>{" "}
                   <span className='bg-[#ff5555] dark:bg-blue-500 rounded-xl rounded-tl-none rounded-bl-none py-1 px-1 text-xl font-bold'>
-                    quiz
+                    INVOICE
                   </span>
                 </span>
               </Link>
@@ -92,17 +92,6 @@ function SideBarComp() {
                   </form>
                   <Sidebar.Items>
                     <Sidebar.ItemGroup>
-                      <Link to='/dashboard?tab=profile'>
-                        <Sidebar.Item
-                          active={tab === "profile"}
-                          icon={ProfileIcon}
-                          className='cursor-pointer  hover:bg-[#ff5555] hover:dark:bg-[#0345fc] hover:text-white hover:text-md hover:opacity-85 rounded-lg w-48 mb-4'
-                          as='div'
-                        >
-                          Profile
-                        </Sidebar.Item>
-                      </Link>
-
                       <Link to='/dashboard?tab=dash'>
                         <Sidebar.Item
                           active={tab === "dash"}
@@ -122,6 +111,17 @@ function SideBarComp() {
                           as='div'
                         >
                           Customers
+                        </Sidebar.Item>
+                      </Link>
+
+                      <Link to='/dashboard?tab=profile'>
+                        <Sidebar.Item
+                          active={tab === "profile"}
+                          icon={ProfileIcon}
+                          className='cursor-pointer  hover:bg-[#ff5555] hover:dark:bg-[#0345fc] hover:text-white hover:text-md hover:opacity-85 rounded-lg w-48 mb-4'
+                          as='div'
+                        >
+                          Profile
                         </Sidebar.Item>
                       </Link>
 

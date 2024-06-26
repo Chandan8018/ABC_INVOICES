@@ -13,10 +13,10 @@ function Contact() {
           <Link to='/'>
             <span className='flex justify-start items-center whitespace-nowrap text-5xl font-semibold dark:text-white'>
               <span className='bg-blue-500 dark:bg-[#ff5555] rounded-xl rounded-tr-none rounded-br-none py-3 pl-3 text-5xl font-bold'>
-                Online
+                ABC
               </span>{" "}
               <span className='bg-[#ff5555] dark:bg-blue-500 rounded-xl rounded-tl-none rounded-bl-none py-3 pr-3 text-5xl font-bold'>
-                quiz
+                INVOICE
               </span>
             </span>
           </Link>
