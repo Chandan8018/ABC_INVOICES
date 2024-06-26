@@ -38,7 +38,7 @@ export const View = [
 ];
 export const Create = [
   {
-    text: "Create",
+    text: "Add",
   },
   {
     text: "a",

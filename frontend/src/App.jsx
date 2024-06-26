@@ -23,7 +23,7 @@ function App() {
 
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/update-quiz/:quizId' element={<UpdateQuiz />} />
+          <Route path='/update-customer/:customerId' element={<UpdateQuiz />} />
         </Route>
       </Routes>
       <FooterComp />

@@ -27,6 +27,10 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    country: {
+      type: String,
+      default: "India",
+    },
   },
   { timestamps: true }
 );

@@ -25,11 +25,23 @@ export const createCustomer = async (req, res, next) => {
 
 export const getCustomers = async (req, res, next) => {
   try {
-    const customers = await Customer.find({});
-    if (!customers) {
-      return next(errorHandler(404, "Customers not found"));
-    }
-    res.status(200).json(customers);
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const customers = await Customer.find({
+      ...(req.query.userId && { userId: req.query.userId }),
+      ...(req.query.name && { name: req.query.name }),
+      ...(req.query.customerId && { _id: req.query.customerId }),
+    })
+      .sort({ updateAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    const totalCustomers = await Customer.countDocuments();
+    res.status(200).json({
+      customers,
+      totalCustomers,
+    });
   } catch (error) {
     next(error);
   }

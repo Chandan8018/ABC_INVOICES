@@ -30,6 +30,7 @@ export default {
   },
   plugins: [
     flowbite.plugin(),
+    require("tailwind-scrollbar")({ nocompatible: true }),
     addVariablesForColors,
     function ({ matchUtilities, theme }) {
       matchUtilities(

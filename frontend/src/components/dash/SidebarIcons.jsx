@@ -43,8 +43,8 @@ const SidebarIcons = () => {
     ) : (
       <BiSolidAddToQueue className='w-5 h-5' />
     );
-  const ViewQuizIcon = () =>
-    tab === "view-quiz" ? (
+  const ViewcustomersIcon = () =>
+    tab === "view-customers" ? (
       <div className=''>
         <Button
           borderRadius='1.75rem'
@@ -74,7 +74,7 @@ const SidebarIcons = () => {
     DashboardIcon,
     ProfileIcon,
     PostQuizIcon,
-    ViewQuizIcon,
+    ViewcustomersIcon,
   };
 };
 

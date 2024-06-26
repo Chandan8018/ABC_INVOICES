@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import SideBarComp from "../components/dash/SideBarComp";
 import DashboardComp from "../components/dash/DashboardComp";
 import Profile from "../components/dash/Profile";
-import PostQuiz from "./PostQuiz";
-import ViewQuiz from "./ViewQuiz";
+import ViewCustomers from "./ViewCustomers";
+import CreateCustomer from "./CreateCustomer";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -23,8 +23,8 @@ export default function Dashboard() {
         </div>
 
         {tab === "dash" && <DashboardComp />}
-        {tab === "post-quiz" && <PostQuiz />}
-        {tab === "view-quiz" && <ViewQuiz />}
+        {tab === "add-customer" && <CreateCustomer />}
+        {tab === "view-customers" && <ViewCustomers />}
         {tab === "profile" && <Profile />}
       </div>
     </>

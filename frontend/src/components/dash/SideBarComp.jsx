@@ -16,8 +16,7 @@ function SideBarComp() {
   const location = useLocation();
   const [tab, setTab] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const { DashboardIcon, ProfileIcon, PostQuizIcon, ViewQuizIcon } =
-    SidebarIcons();
+  const { DashboardIcon, ProfileIcon, ViewcustomersIcon } = SidebarIcons();
 
   const handleClose = () => setIsOpen(false);
 
@@ -115,24 +114,14 @@ function SideBarComp() {
                         </Sidebar.Item>
                       </Link>
 
-                      <Link to='/dashboard?tab=post-quiz'>
+                      <Link to='/dashboard?tab=view-customers'>
                         <Sidebar.Item
-                          active={tab === "post-quiz"}
-                          icon={PostQuizIcon}
+                          active={tab === "view-customers"}
+                          icon={ViewcustomersIcon}
                           className='cursor-pointer  hover:bg-[#ff5555] hover:dark:bg-[#0345fc] hover:text-white hover:text-md hover:opacity-85 rounded-lg w-48 mb-4'
                           as='div'
                         >
-                          Post Quiz
-                        </Sidebar.Item>
-                      </Link>
-                      <Link to='/dashboard?tab=view-quiz'>
-                        <Sidebar.Item
-                          active={tab === "view-quiz"}
-                          icon={ViewQuizIcon}
-                          className='cursor-pointer  hover:bg-[#ff5555] hover:dark:bg-[#0345fc] hover:text-white hover:text-md hover:opacity-85 rounded-lg w-48 mb-4'
-                          as='div'
-                        >
-                          Preview Quiz
+                          Customers
                         </Sidebar.Item>
                       </Link>
 

@@ -9,8 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Alert, Spinner } from "flowbite-react";
+import { TextArea } from "../components/ui/TextArea";
+import { Select } from "../components/ui/Select";
 
-function PostQuiz() {
+function CreateCustomer() {
   const navigate = useNavigate();
   const { theme } = useSelector((state) => state.theme);
   const { currentUser } = useSelector((state) => state.user);
@@ -25,21 +27,18 @@ function PostQuiz() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      !formData.question ||
-      !formData.option1 ||
-      !formData.option2 ||
-      !formData.option3 ||
-      !formData.option4 ||
-      !formData.answer
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.state ||
+      !formData.country
     ) {
       return setErrorMessage("Please fill out all fields");
     }
-    if (!currentUser.isAdmin) {
-      return setErrorMessage("You are not allowed to create a quiz");
-    }
 
     try {
-      const res = await fetch("/api/quiz/create", {
+      const res = await fetch("/api/customer/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +53,7 @@ function PostQuiz() {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/quiz-post/${data.slug}`);
+        navigate("/dashboard?tab=view-customers");
       }
     } catch (error) {
       setPublishError("Something went wrong last", error);
@@ -75,7 +74,7 @@ function PostQuiz() {
           <TypewriterEffectSmooth words={Create} />
         </div>
         <p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
-          Create an account to access our features
+          Create a customer to access our dynamic features
         </p>
         {errorMessage && (
           <Alert className='mt-5' color='failure'>
@@ -84,62 +83,86 @@ function PostQuiz() {
         )}
         <form className='mt-4' onSubmit={handleSubmit}>
           <LabelInputContainer>
-            <Label htmlFor='question'>Quiz Question</Label>
+            <Label htmlFor='name'>Customer Name</Label>
             <Input
-              id='question'
-              placeholder='Enter Quiz...'
+              id='name'
+              placeholder='Enter Customer Name'
               type='text'
               onChange={handleChange}
             />
           </LabelInputContainer>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
             <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option1'>Option1</Label>
+              <Label htmlFor='email'>Email</Label>
               <Input
-                id='option1'
-                placeholder='Enter Option1...'
+                id='email'
+                placeholder='Enter Customer Email'
                 type='text'
                 onChange={handleChange}
               />
             </LabelInputContainer>
             <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option2'>Option2</Label>
+              <Label htmlFor='phone'>Phone Number</Label>
               <Input
-                id='option2'
-                placeholder='Enter Option2...'
-                type='text'
-                onChange={handleChange}
-              />
-            </LabelInputContainer>
-
-            <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option3'>Option3</Label>
-              <Input
-                id='option3'
-                placeholder='Enter Option3...'
-                type='text'
-                onChange={handleChange}
-              />
-            </LabelInputContainer>
-            <LabelInputContainer className='mb-4'>
-              <Label htmlFor='option4'>Option4</Label>
-              <Input
-                id='option4'
-                placeholder='Enter Option4...'
+                id='phone'
+                placeholder='Enter Phone Number'
                 type='text'
                 onChange={handleChange}
               />
             </LabelInputContainer>
           </div>
+
           <LabelInputContainer className='mb-4'>
-            <Label htmlFor='answer'>Answer</Label>
-            <Input
-              id='answer'
-              placeholder='Enter Answer...'
+            <Label htmlFor='address'>Address</Label>
+            <TextArea
+              id='address'
+              placeholder='Enter Address here...'
               type='text'
+              rows='3'
               onChange={handleChange}
             />
           </LabelInputContainer>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 my-4'>
+            <LabelInputContainer className='mb-4'>
+              <Label htmlFor='state'>State</Label>
+              <Select id='state' type='text' onChange={handleChange}>
+                <option value=''>Select State</option>
+                <option value='Gujarat'>Gujarat</option>
+                <option value='Maharashtra'>Maharashtra</option>
+                <option value='Odisha'>Odisha</option>
+                <option value='Rajasthan'>Rajasthan</option>
+                <option value='Uttar Pradesh'>Uttar Pradesh</option>
+                <option value='Delhi'>Delhi</option>
+                <option value='Karnataka'>Karnataka</option>
+                <option value='Tamilnadu'>Tamilnadu</option>
+                <option value='Kerala'>Kerala</option>
+                <option value='West Bengal'>West Bengal</option>
+                <option value='Haryana'>Haryana</option>
+                <option value='Madhya Pradesh'>Madhya Pradesh</option>
+                <option value='Punjab'>Punjab</option>
+                <option value='Jharkhand'>Jharkhand</option>
+                <option value='Bihar'>Bihar</option>
+                <option value='Chhattisgarh'>Chhattisgarh</option>
+                <option value='Other'>Other</option>
+              </Select>
+            </LabelInputContainer>
+            <LabelInputContainer className='mb-4'>
+              <Label htmlFor='country'>Country</Label>
+              <Select id='country' type='text' onChange={handleChange}>
+                <option value=''>Select Country</option>
+                <option value='India'>India</option>
+                <option value='USA'>USA</option>
+                <option value='UK'>UK</option>
+                <option value='Australia'>Australia</option>
+                <option value='Canada'>Canada</option>
+                <option value='Japan'>Japan</option>
+                <option value='China'>China</option>
+                <option value='Other'>Other</option>
+              </Select>
+            </LabelInputContainer>
+          </div>
+
           {publishError && (
             <Alert className='my-5' color='failure'>
               {publishError}
@@ -156,7 +179,7 @@ function PostQuiz() {
                 <span className='pl-3'>Loading...</span>
               </>
             ) : (
-              "Create Quiz"
+              "Add Customer"
             )}
 
             <BottomGradient />
@@ -186,4 +209,4 @@ const LabelInputContainer = ({ children, className }) => {
   );
 };
 
-export default PostQuiz;
+export default CreateCustomer;

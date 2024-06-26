@@ -17,12 +17,14 @@ function UpdateQuiz() {
   const [publishError, setPublishError] = useState(null);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { quizId } = useParams();
+  const { customerId } = useParams();
 
   useEffect(() => {
     try {
       const fetchQuiz = async () => {
-        const res = await fetch(`/api/quiz/getquizzes?quizId=${quizId}`);
+        const res = await fetch(
+          `/api/customer/getCustomers?customerId=${customerId}`
+        );
         const data = await res.json();
         if (!res.ok) {
           setPublishError(data.message);
