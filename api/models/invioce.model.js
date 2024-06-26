@@ -6,20 +6,34 @@ const invoiceSchema = mongoose.Schema(
     currency: String,
     items: [
       {
-        itemName: String,
-        unitPrice: String,
-        quantity: String,
-        discount: String,
+        description: {
+          type: String,
+          required: true,
+        },
+        unitPrice: {
+          type: String,
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        discount: {
+          type: Number,
+        },
+        netAmount: {
+          type: Number,
+        },
+        taxRate: {
+          type: Number,
+        },
       },
     ],
-    rates: String,
-    vat: Number,
     total: Number,
     subTotal: Number,
     notes: String,
     status: String,
     invoiceNumber: String,
-    type: String,
     creator: [String],
     totalAmountReceived: Number,
     client: { name: String, email: String, phone: String, address: String },

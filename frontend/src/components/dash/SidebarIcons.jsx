@@ -3,9 +3,7 @@ import { HiUser } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { Button } from "../ui/moving-border";
-import { BiSolidAddToQueue } from "react-icons/bi";
-import { CiViewList } from "react-icons/ci";
-import { FaUsers } from "react-icons/fa";
+import { FaUsers, FaFileInvoice } from "react-icons/fa";
 
 const SidebarIcons = () => {
   const [tab, setTab] = useState("");
@@ -45,17 +43,17 @@ const SidebarIcons = () => {
       <FaUsers className='w-5 h-5' />
     );
   const InvoiceIcon = () =>
-    tab === "view-customers" ? (
+    tab === "invoice" ? (
       <div className=''>
         <Button
           borderRadius='1.75rem'
           className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 w-8'
         >
-          <CiViewList className='w-5 h-5 text-[#46C5F0]' />
+          <FaFileInvoice className='w-5 h-5 text-[#46C5F0]' />
         </Button>
       </div>
     ) : (
-      <CiViewList className='w-5 h-5' />
+      <FaFileInvoice className='w-5 h-5' />
     );
   const ProfileIcon = () =>
     tab === "profile" ? (
