@@ -60,6 +60,18 @@ export const Create = [
     className: "text-blue-500 dark:text-blue-500",
   },
 ];
+export const CreateSupplierWritingData = [
+  {
+    text: "Add",
+  },
+  {
+    text: "a",
+  },
+  {
+    text: "Supplier.",
+    className: "text-blue-500 dark:text-blue-500",
+  },
+];
 export const Update = [
   {
     text: "Update",
