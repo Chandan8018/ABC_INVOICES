@@ -12,7 +12,7 @@ import { cn } from "../utils/cn";
 import { Select } from "../components/ui/Select";
 import { TextArea } from "../components/ui/TextArea";
 
-function UpdateQuiz() {
+function UpdateCustomer() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const navigate = useNavigate();
@@ -238,4 +238,4 @@ const LabelInputContainer = ({ children, className }) => {
   );
 };
 
-export default UpdateQuiz;
+export default UpdateCustomer;

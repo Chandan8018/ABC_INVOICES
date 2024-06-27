@@ -6,6 +6,8 @@ import Profile from "../components/dash/Profile";
 import ViewCustomers from "./ViewCustomers";
 import CreateCustomer from "./CreateCustomer";
 import Invoice from "../components/invoices/Invoice";
+import ViewSuppliers from "./ViewSuppliers";
+import CreateSupplier from "./CreateSupplier";
 
 const demoData = {
   companyLogo: "https://via.placeholder.com/150",
@@ -89,9 +91,11 @@ export default function Dashboard() {
 
         {tab === "dash" && <DashboardComp />}
         {tab === "add-customer" && <CreateCustomer />}
+        {tab === "add-supplier" && <CreateSupplier />}
         {tab === "view-customers" && <ViewCustomers />}
+        {tab === "view-suppliers" && <ViewSuppliers />}
         {tab === "profile" && <Profile />}
-        {tab === "invoice" && <Invoice {...demoData} />}
+        {tab === "invoice" && <Invoice />}
       </div>
     </>
   );

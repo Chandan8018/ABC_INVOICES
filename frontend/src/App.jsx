@@ -8,7 +8,8 @@ import SignUp from "./pages/SignUp";
 import PrivateRoute from "./components/privateroute/PrivateRoute";
 import SideBarComp from "./components/dash/SideBarComp";
 import Dashboard from "./pages/Dashboard";
-import UpdateQuiz from "./pages/UpdateQuiz";
+import UpdateCustomer from "./pages/UpdateCustomer";
+import UpdateSupplier from "./pages/UpdateSupplier";
 function App() {
   return (
     <BrowserRouter>
@@ -23,7 +24,14 @@ function App() {
 
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/update-customer/:customerId' element={<UpdateQuiz />} />
+          <Route
+            path='/update-customer/:customerId'
+            element={<UpdateCustomer />}
+          />
+          <Route
+            path='/update-supplier/:supplierId'
+            element={<UpdateSupplier />}
+          />
         </Route>
       </Routes>
       <FooterComp />
