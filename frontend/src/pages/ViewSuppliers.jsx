@@ -115,6 +115,9 @@ function ViewSuppliers() {
                     PAN No.
                   </Table.HeadCell>
                   <Table.HeadCell className='bg-[#abb1bb]'>
+                    Supplier Signature
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
                     Phone No.
                   </Table.HeadCell>
                   <Table.HeadCell className='bg-[#abb1bb]'>
@@ -129,9 +132,7 @@ function ViewSuppliers() {
                   <Table.HeadCell className='bg-[#abb1bb]'>
                     Country
                   </Table.HeadCell>
-                  <Table.HeadCell className='bg-[#abb1bb]'>
-                    Supplier Signature
-                  </Table.HeadCell>
+
                   <Table.HeadCell className='bg-[#abb1bb]'>
                     Delete
                   </Table.HeadCell>
@@ -145,21 +146,21 @@ function ViewSuppliers() {
                         <Table.Cell>{supplier.name}</Table.Cell>
                         <Table.Cell>{supplier.GST}</Table.Cell>
                         <Table.Cell>{supplier.PAN}</Table.Cell>
-                        <Table.Cell>{supplier.phone}</Table.Cell>
-                        <Table.Cell>{supplier.email}</Table.Cell>
-                        <Table.Cell>{supplier.address}</Table.Cell>
-                        <Table.Cell>{supplier.state}</Table.Cell>
-                        <Table.Cell>{supplier.country}</Table.Cell>
                         <Table.Cell>
                           {
                             <img
                               src={supplier.signature}
                               alt={`${supplier.name} signature`}
-                              height={20}
-                              width={100}
+                              className='rounded-sm w-40'
                             />
                           }
                         </Table.Cell>
+                        <Table.Cell>{supplier.phone}</Table.Cell>
+                        <Table.Cell>{supplier.email}</Table.Cell>
+                        <Table.Cell>{supplier.address}</Table.Cell>
+                        <Table.Cell>{supplier.state}</Table.Cell>
+                        <Table.Cell>{supplier.country}</Table.Cell>
+
                         <Table.Cell>
                           <Button
                             borderRadius='1.75rem'
