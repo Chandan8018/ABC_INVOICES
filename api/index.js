@@ -7,6 +7,7 @@ import userRouters from "./routes/user.route.js";
 import authRouters from "./routes/auth.route.js";
 import customerRouters from "./routes/customer.route.js";
 import supplierRouters from "./routes/supplier.route.js";
+import invoiceRouters from "./routes/invoice.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 
@@ -61,6 +62,7 @@ app.use("/api/user", userRouters);
 app.use("/api/auth", authRouters);
 app.use("/api/customer", customerRouters);
 app.use("/api/supplier", supplierRouters);
+app.use("/api/invoice", invoiceRouters);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specification));
 
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
