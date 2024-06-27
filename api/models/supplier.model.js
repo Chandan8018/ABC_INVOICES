@@ -21,24 +21,29 @@ const supplierCompanySchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true,
     },
     PAN: {
       type: String,
-      required: true,
-      unique: true,
+      default: "ABCDE1234F",
     },
     GST: {
       type: String,
-      required: true,
-      unique: true,
+      default: "21ABCDE1234FA1Z5",
+    },
+    state: {
+      type: String,
+    },
+    country: {
+      type: String,
+      default: "India",
+    },
+    signature: {
+      type: String,
+      default: "https://signature.freefire-name.com/img.php?f=10&t=Chandan",
     },
   },
   { timestamps: true }
 );
 
-const suppliercompany = mongoose.model(
-  "suppliercompany",
-  supplierCompanySchema
-);
-export default suppliercompany;
+const supplier = mongoose.model("supplier", supplierCompanySchema);
+export default supplier;
