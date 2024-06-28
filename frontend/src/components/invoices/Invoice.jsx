@@ -119,26 +119,26 @@ function Invoice() {
   }, [selectedCustomer]);
 
   return (
-    <div className='mx-auto p-10 overflow-x-scroll scrollbar scrollbar-track-slate-700 scrollbar-thumb-black dark:scrollbar-track-slate-400 dark:scrollbar-thumb-white'>
-      <BackgroundGradient className='rounded-[8px] min-h-screen w-5xl p-4 sm:p-10 bg-white dark:bg-zinc-900'>
-        <div className='flex justify-between'>
-          <span className='flex justify-start items-center whitespace-nowrap text-xl font-semibold dark:text-white pl-7'>
-            <span className='bg-blue-500 dark:bg-[#ff5555] rounded-xl rounded-tr-none rounded-br-none py-1 px-1 text-xl font-bold'>
+    <div className='mx-auto p-4 md:p-10 overflow-x-auto scrollbar scrollbar-track-slate-700 scrollbar-thumb-black dark:scrollbar-track-slate-400 dark:scrollbar-thumb-white'>
+      <BackgroundGradient className='rounded-[8px] min-h-screen w-full md:w-5xl p-4 sm:p-10 bg-white dark:bg-zinc-900'>
+        <div className='flex flex-col md:flex-row justify-between'>
+          <span className='flex justify-start items-center whitespace-nowrap text-lg md:text-xl font-semibold dark:text-white pl-7'>
+            <span className='bg-blue-500 dark:bg-[#ff5555] rounded-xl rounded-tr-none rounded-br-none py-1 px-1 text-lg md:text-xl font-bold'>
               ABC
             </span>{" "}
-            <span className='bg-[#ff5555] dark:bg-blue-500 rounded-xl rounded-tl-none rounded-bl-none py-1 px-1 text-xl font-bold'>
+            <span className='bg-[#ff5555] dark:bg-blue-500 rounded-xl rounded-tl-none rounded-bl-none py-1 px-1 text-lg md:text-xl font-bold'>
               INVOICE
             </span>
           </span>
           <div className='flex flex-col gap-1 justify-start items-end'>
-            <h2 className='text-xl md:text-2xl text-black dark:text-neutral-200'>
+            <h2 className='text-lg md:text-2xl text-black dark:text-neutral-200'>
               Tax Invoice/Bill of Supply/Case Memo
             </h2>
             <h4>(Original for Recipient)</h4>
           </div>
         </div>
         <hr />
-        <div className='grid grid-cols-2 gap-4 mt-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
           {/* Supplier Details / 1st Grid */}
           <div className=''>
             {supplierFound ? (
@@ -204,7 +204,7 @@ function Invoice() {
                 >
                   <SpeedDial
                     ariaLabel='SpeedDial basic example'
-                    sx={{ marginLeft: "-400px", marginTop: "-40px" }}
+                    sx={{ marginLeft: "0", marginTop: "16px" }}
                     icon={<SpeedDialIcon />}
                   >
                     <SpeedDialAction
@@ -291,7 +291,7 @@ function Invoice() {
                   >
                     <SpeedDial
                       ariaLabel='SpeedDial basic example'
-                      sx={{ marginRight: "-240px", marginTop: "-40px" }}
+                      sx={{ marginRight: "0", marginTop: "16px" }}
                       icon={<SpeedDialIcon />}
                     >
                       <SpeedDialAction
@@ -307,7 +307,7 @@ function Invoice() {
             )}
           </div>
           {/* 3rd Grid */}
-          <div>
+          <div className=''>
             <h3>
               <span className='font-bold tracking-tighter'>Order Number:</span>
             </h3>
@@ -347,7 +347,7 @@ function Invoice() {
           </PDFDownloadLink>
         </div>
         {supplierFound && (
-          <div className='w-full pr-1 border-[1px] border-opacity-35 dark:border-opacity-55  border-solid border-black dark:border-white dark:bg-slate-800 flex flex-col items-end gap-2'>
+          <div className='w-full pr-1 border-[1px] border-opacity-35 dark:border-opacity-55 border-solid border-black dark:border-white dark:bg-slate-800 flex flex-col items-end gap-2'>
             <span className='font-bold text-xl'>
               for {supplierDetails[0].name}
             </span>

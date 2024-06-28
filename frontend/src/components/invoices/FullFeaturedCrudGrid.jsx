@@ -333,9 +333,11 @@ export default function FullFeaturedCrudGrid() {
           <span className='text-md '>{`₹ ${totalAmount.toFixed(2)} /-`}</span>
         </div>
         <hr />
-        <div className='w-full py-2 text-xl font-semibold tracking-tighter flex justify-between pr-5'>
+        <div className='w-full py-2 md:text-xl font-semibold tracking-tighter flex flex-wrap justify-between pr-5'>
           <span>Amount in words: </span>
-          <span className='text-[18px] font-light '>{amountInWords}</span>
+          <span className=' text-sm md:text-[18px] font-light '>
+            {amountInWords}
+          </span>
         </div>
       </div>
     </Box>
