@@ -6,7 +6,7 @@ import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { Alert, FileInput, Spinner } from "flowbite-react";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
-import { Update } from "../data/data";
+import { Updatesupp } from "../data/data";
 import { Button } from "../components/ui/moving-border";
 import { cn } from "../utils/cn";
 import { Select } from "../components/ui/Select";
@@ -152,7 +152,7 @@ function UpdateSupplier() {
       {/* Sign Up Form */}
       <div className='max-w-3xl w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#abb1bb] dark:bg-[#1a232f] '>
         <div className='flex justify-center'>
-          <TypewriterEffectSmooth words={Update} />
+          <TypewriterEffectSmooth words={Updatesupp} />
         </div>
         <p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
           Enter the details to access our Update features

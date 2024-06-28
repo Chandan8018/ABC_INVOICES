@@ -81,6 +81,15 @@ export const Update = [
     className: "text-blue-500 dark:text-blue-500",
   },
 ];
+export const Updatesupp = [
+  {
+    text: "Update",
+  },
+  {
+    text: "Supplier.",
+    className: "text-blue-500 dark:text-blue-500",
+  },
+];
 
 export const home = [
   {
