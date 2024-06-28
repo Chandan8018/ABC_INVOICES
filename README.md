@@ -68,7 +68,7 @@ The Online Quiz Platform is a web application that allows users to take quizzes,
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/Chandan8018/ABC_INVOICES.git
-    
+
     ```
 
 2. **Backend Setup**:
@@ -119,15 +119,21 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 ├── api
 |   ├── controllers
 |   |   ├── auth.controller.js
-|   |   ├── quiz.controller.js
+|   |   ├── customer.controller.js
+|   |   ├── invoice.controller.js
+|   |   ├── supplier.controller.js
 |   |   └── user.controller.js 
 |   ├── routes
 |   |   ├── auth.route.js
-|   |   ├── quiz.route.js
+|   |   ├── customer.route.js
+|   |   ├── supplier.route.js
+|   |   ├── invoice.route.js
 |   |   └── user.route.js
 |   ├── models
-|   |   ├── quiz.model.js
-|   |   └── use.model.js
+|   |   ├── customer.model.js
+|   |   ├── supplier.model.js
+|   |   ├── invoice.model.js
+|   |   └── user.model.js
 |   ├── utils
 |   |   ├── error.js
 |   |   └── verifyUser.js
@@ -143,16 +149,16 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 │   │   │   |   └── Header.jsx
 │   │   |   ├── privateroute
 │   │   │   |   └── PrivateRoute.jsx
-│   │   |   ├── adminprivateroute
-│   │   │   |   └── OnlyAdminPrivateRoute.jsx
+│   │   |   ├── invoices
+│   │   │   |   ├── FullFeaturedCrudGrid.jsx
+│   │   │   |   └── Invoice.jsx
 │   │   |   ├── googleConfig
 │   │   │   |   └── OAuth.jsx
 │   │   |   ├── dash
 │   │   │   |   ├── DashboardComp.jsx
 |   |   |   |   ├── Profile.jsx  
 |   |   |   |   ├── SideBarComp.jsx  
-|   |   |   |   ├── SidebarIcons.jsx  
-|   |   |   |   └── StudentDashboardComp.jsx  
+|   |   |   |   └── SidebarIcons.jsx
 │   │   |   ├── theme
 │   │   │   |   └── ThemeProvider.jsx
 │   │   |   ├── ui
@@ -165,9 +171,12 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 │   │   |   ├── Service.jsx
 │   │   |   ├── SignIn.jsx
 │   │   |   ├── QuizPage.jsx
-│   │   |   ├── UpdateQuiz.jsx
-│   │   |   ├── PostQuiz.jsx
-│   │   |   ├── ViewQuiz.jsx
+│   │   |   ├── UpdateCustomer.jsx
+│   │   |   ├── UpdateSupplier.jsx
+│   │   |   ├── ViewCustomers.jsx
+│   │   |   ├── ViewSuppliers.jsx
+│   │   |   ├── CreateCustomer.jsx
+│   │   |   ├── CreateSupplier.jsx
 │   │   |   └── SignUp.jsx
 │   |   ├── redux
 │   │   |   ├── theme
