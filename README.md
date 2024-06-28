@@ -1,4 +1,4 @@
-# Online Quiz Platform
+# Dynamic Invoice
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -34,38 +34,41 @@ The Online Quiz Platform is a web application that allows users to take quizzes,
 
 ## Demo
 
-![Home Page](./frontend/public/homepage.png)
+![Home Page](./frontend/public/home.png)
 ---
-![Sign Up](./frontend/public/signup.png)
+![Sign Up](./frontend/public/sign-up.png)
 ---
-![Sign In](./frontend/public/signin.png)
+![Sign In](./frontend/public/sign-in.png)
 ---
-![Update Profile](./frontend/public/updateProfile.png)
+![Update Profile](./frontend/public/update-profile.png)
 ---
 ![SideBar](./frontend/public/sidebar.png)
 ---
-![All Quizzes](./frontend/public/viewquiz.png)
+![All Customers](./frontend/public/all-customers.png)
 ---
-![Delete Quizzes](./frontend/public/deletequiz.png)
+![Add Customer](./frontend/public/add-customer.png)
 ---
-![Update Quiz](./frontend/public/updatequiz.png)
+![Update Customer](./frontend/public/update-customer.png)
 ---
-![add Quiz](./frontend/public/createquiz.png)
+![All Supplier](./frontend/public/all-suppliers.png)
 ---
-![Quiz Instructions](./frontend/public/quizinstr.png)
+![Add Supplier](./frontend/public/add-supplier.png)
 ---
-![Quiz](./frontend/public/quiz.png)
+![Update Supplier](./frontend/public/update-supplier.png)
 ---
-![Complete Quiz](./frontend/public/quizcomplete.png)
+![BeforeInvoice](./frontend/public/invoice1.png)
 ---
+![AfterInvoice](./frontend/public/invoice2.png)
+---
+
 
 
 
 ## Installation
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/Chandan8018/OnlineQuiz.git
-    cd OnlineQuiz
+    git clone https://github.com/Chandan8018/ABC_INVOICES.git
+    
     ```
 
 2. **Backend Setup**:
