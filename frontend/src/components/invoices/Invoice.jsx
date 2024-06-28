@@ -329,6 +329,20 @@ function Invoice() {
           </div>
         </div>
         <FullFeaturedCrudGrid />
+
+        {supplierFound && (
+          <div className='w-full pr-1 border-[1px] border-opacity-35 dark:border-opacity-55 border-solid border-black dark:border-white dark:bg-slate-800 flex flex-col items-end gap-2'>
+            <span className='font-bold text-xl'>
+              for {supplierDetails[0].name}
+            </span>
+            <img
+              src={supplierDetails[0].signature}
+              alt={`${supplierDetails[0].name} Signature`}
+              className='w-48 h-10 border-[2px] border-solid border-black dark:border-white dark:bg-slate-800'
+            />
+            <span className='font-bold text-xl'>Authorized Signatory</span>
+          </div>
+        )}
         <div className='flex justify-end mt-4'>
           <PDFDownloadLink
             document={
@@ -346,19 +360,6 @@ function Invoice() {
             }
           </PDFDownloadLink>
         </div>
-        {supplierFound && (
-          <div className='w-full pr-1 border-[1px] border-opacity-35 dark:border-opacity-55 border-solid border-black dark:border-white dark:bg-slate-800 flex flex-col items-end gap-2'>
-            <span className='font-bold text-xl'>
-              for {supplierDetails[0].name}
-            </span>
-            <img
-              src={supplierDetails[0].signature}
-              alt={`${supplierDetails[0].name} Signature`}
-              className='w-48 h-10 border-[2px] border-solid border-black dark:border-white dark:bg-slate-800'
-            />
-            <span className='font-bold text-xl'>Authorized Signatory</span>
-          </div>
-        )}
       </BackgroundGradient>
     </div>
   );
