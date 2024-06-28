@@ -28,21 +28,12 @@ const router = express.Router();
  *          description: user password
  *        profilePicture:
  *          type: string
- *          description: user profile picture
- *        isAdmin:
- *          type: boolean
- *          description: user admin or not
- *        regdNumber:
- *          type: string
- *          description: user registration number
  *      example:
  *        id: GDHJGD788BJBJ
  *        username: Chandan123
  *        email: chandan@gmail.com
  *        password: chandan@123
  *        profilePicture: https://pics.craiyon.com
- *        isAdmin: false
- *        regdNumber: 1a2b3c4d
  */
 
 /**

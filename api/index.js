@@ -37,9 +37,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Blackcoffer Assignment API",
+      title: "Abc Invoice API",
       version: "1.0.0",
-      description: "MERN stack Blackcoffer API",
+      description: "MERN stack Invoice API",
       contact: {
         name: "Chandan Kumar Sahoo",
         email: "chandankumarsahoo@gmail.com",
@@ -48,7 +48,7 @@ const options = {
     },
     servers: [
       {
-        url: "https://localhost:7970",
+        url: `https://localhost:${port}`,
       },
     ],
   },
