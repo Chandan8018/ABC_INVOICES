@@ -78,18 +78,12 @@ function SignIn() {
           <TypewriterEffectSmooth words={Word} />
         </div>
 
-        <div className='flex justify-between'>
-          <div className='flex flex-col gap-2 text-md font-medium border-solid border-2 rounded-md p-2'>
-            <span>Demo Account for Admin</span>
-            <span>email: admin@quiz.com</span>
-            <span>password: admin@123</span>
-          </div>
-          <div className='flex flex-col gap-2 text-md font-medium border-solid border-2 rounded-md p-2'>
-            <span>Demo Account for Student</span>
-            <span>email: student@quiz.com</span>
-            <span>password: student@123</span>
-          </div>
+        <div className='flex flex-col gap-2 text-md font-medium border-solid border-2 rounded-md p-2'>
+          <span>Demo Account:</span>
+          <span>email: demo@gmail.com</span>
+          <span>password: demo@123</span>
         </div>
+
         {errorMessage && (
           <Alert className='mt-5' color='failure'>
             {errorMessage}

@@ -95,7 +95,7 @@ const invoiceSchema = mongoose.Schema(
       },
     },
     totalAmount: {
-      type: Number,
+      type: String,
       required: true,
     },
   },

@@ -22,7 +22,7 @@ function Contact() {
           </Link>
         </div>
         <span className='flex justify-start items-center gap-1 text-xl font-semibold'>
-          <IoMdMail className='w-6 h-6 text-[#ff5555]' /> Help@OnlineQuiz.In
+          <IoMdMail className='w-6 h-6 text-[#ff5555]' /> Help@AbcInvoice.In
         </span>
         <span className='flex justify-start items-center gap-1 text-xl font-semibold'>
           <IoCall className='w-6 h-6 text-[#ff5555]' />{" "}

@@ -13,66 +13,93 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-} from "@mui/x-data-grid-generator";
+import { randomId } from "@mui/x-data-grid-generator";
 import { useSelector } from "react-redux";
+import { ToWords } from "to-words";
 
-const roles = ["Market", "Finance", "Development"];
-const randomRole = () => {
-  return randomArrayItem(roles);
+const toWords = new ToWords();
+
+const calculateNetAmount = (row) => {
+  return row.unitPrice * row.quantity - row.discount;
 };
 
-const initialRows = [
+const calculateTaxType = (row) => {
+  return row.placeOfSupply === row.placeOfDelivery ? "CGST/SGST" : "IGST";
+};
+
+const calculateTaxAmount = (row) => {
+  const netAmount = calculateNetAmount(row);
+  const taxRate = row.taxRate / 100;
+  if (calculateTaxType(row) === "CGST/SGST") {
+    const cgstSgstRate = taxRate / 2;
+    return netAmount * cgstSgstRate * 2;
+  } else {
+    return netAmount * taxRate;
+  }
+};
+
+const calculateTotalAmount = (row) => {
+  const netAmount = calculateNetAmount(row);
+  const taxAmount = calculateTaxAmount(row);
+  return netAmount + taxAmount;
+};
+
+// Function to initialize rows with calculated values
+const initializeRows = (rows) => {
+  return rows.map((row) => ({
+    ...row,
+    netAmount: calculateNetAmount(row),
+    totalAmount: calculateTotalAmount(row),
+  }));
+};
+
+const initialRows = initializeRows([
   {
     id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
+    description: "Product 1",
+    quantity: 10,
+    unitPrice: 100,
+    discount: 5,
+    placeOfSupply: "Location A",
+    placeOfDelivery: "Location A",
+    taxRate: 18,
   },
   {
     id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
+    description: "Product 2",
+    quantity: 5,
+    unitPrice: 200,
+    discount: 10,
+    placeOfSupply: "Location B",
+    placeOfDelivery: "Location C",
+    taxRate: 18,
   },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
+]);
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    setRows((oldRows) => [
+      ...oldRows,
+      {
+        id,
+        description: "",
+        quantity: 0,
+        unitPrice: 0,
+        discount: 0,
+        placeOfSupply: "",
+        placeOfDelivery: "",
+        netAmount: 0,
+        taxRate: 18,
+        totalAmount: 0,
+        isNew: true,
+      },
+    ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "description" },
     }));
   };
 
@@ -89,6 +116,10 @@ export default function FullFeaturedCrudGrid() {
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const { theme } = useSelector((state) => state.theme);
+
+  const totalAmount = rows.reduce((sum, row) => sum + row.totalAmount, 0);
+  const amountInWords = toWords.convert(totalAmount, { currency: true });
+
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -120,7 +151,14 @@ export default function FullFeaturedCrudGrid() {
   };
 
   const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
+    const netAmount = calculateNetAmount(newRow);
+    const totalAmount = calculateTotalAmount(newRow);
+    const updatedRow = {
+      ...newRow,
+      netAmount,
+      totalAmount,
+      isNew: false,
+    };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
@@ -131,20 +169,12 @@ export default function FullFeaturedCrudGrid() {
 
   const columns = [
     {
-      field: "slno",
-      headerName: "SL No",
-      align: "left",
-      headerAlign: "left",
-      width: 50,
-      editable: false,
-    },
-    {
       field: "description",
       headerName: "Description",
       type: "string",
       align: "left",
       headerAlign: "left",
-      width: 300,
+      width: 200,
       editable: true,
     },
     {
@@ -158,8 +188,8 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "unitPrice",
-      headerName: "Unit Price",
-      type: "String",
+      headerName: "Unit Price(₹)",
+      type: "number",
       width: 100,
       align: "left",
       headerAlign: "left",
@@ -167,16 +197,7 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "discount",
-      headerName: "Discount",
-      type: "number",
-      align: "left",
-      headerAlign: "left",
-      width: 100,
-      editable: true,
-    },
-    {
-      field: "taxRate",
-      headerName: "Tax Rate",
+      headerName: "Discount(%)",
       type: "number",
       align: "left",
       headerAlign: "left",
@@ -185,12 +206,48 @@ export default function FullFeaturedCrudGrid() {
     },
     {
       field: "netAmount",
-      headerName: "Net Amount",
+      headerName: "Net Amount(₹)",
       type: "number",
       align: "left",
       headerAlign: "left",
       width: 100,
-      editable: true,
+      editable: false,
+    },
+    // {
+    //   field: "placeOfSupply",
+    //   headerName: "Place of Supply",
+    //   type: "string",
+    //   align: "left",
+    //   headerAlign: "left",
+    //   width: 150,
+    //   editable: true,
+    // },
+    // {
+    //   field: "placeOfDelivery",
+    //   headerName: "Place of Delivery",
+    //   type: "string",
+    //   align: "left",
+    //   headerAlign: "left",
+    //   width: 150,
+    //   editable: true,
+    // },
+    {
+      field: "taxRate",
+      headerName: "Tax Rate(%)",
+      type: "number",
+      align: "left",
+      headerAlign: "left",
+      width: 100,
+      editable: false,
+    },
+    {
+      field: "totalAmount",
+      headerName: "Total Amount(₹)",
+      type: "number",
+      align: "left",
+      headerAlign: "left",
+      width: 100,
+      editable: false,
     },
     {
       field: "actions",
@@ -252,6 +309,7 @@ export default function FullFeaturedCrudGrid() {
           color: "text.primary",
         },
         marginTop: "20px",
+        marginBottom: "90px",
       }}
     >
       <DataGrid
@@ -269,6 +327,17 @@ export default function FullFeaturedCrudGrid() {
           toolbar: { setRows, setRowModesModel },
         }}
       />
+      <div className='w-full pl-1 border-[1px] border-opacity-35 dark:border-opacity-55  border-solid border-black dark:border-white dark:bg-slate-800 flex-col items-start gap-2'>
+        <div className='w-full py-2 text-xl font-semibold tracking-tighter flex justify-between pr-5'>
+          <span>Total: </span>
+          <span className='text-md '>{`₹ ${totalAmount.toFixed(2)} /-`}</span>
+        </div>
+        <hr />
+        <div className='w-full py-2 text-xl font-semibold tracking-tighter flex justify-between pr-5'>
+          <span>Amount in words: </span>
+          <span className='text-[18px] font-light '>{amountInWords}</span>
+        </div>
+      </div>
     </Box>
   );
 }
