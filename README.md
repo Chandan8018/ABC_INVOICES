@@ -4,9 +4,11 @@
 - [Project Overview](#project-overview)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
+- [API Documentation](#api-documentation)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Folder Structure](#folder-structure)
+- [Demo](#demo)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -32,39 +34,12 @@ The Online Quiz Platform is a web application that allows users to take quizzes,
 - **Animations**: Framer Motion
 - **Hosting**: Render
 
-## Demo
-
-![Home Page](./frontend/public/home.png)
----
-![Sign Up](./frontend/public/sign-up.png)
----
-![Sign In](./frontend/public/sign-in.png)
----
-![Update Profile](./frontend/public/update-profile.png)
----
-![SideBar](./frontend/public/sidebar.png)
----
-![All Customers](./frontend/public/all-customers.png)
----
-![Add Customer](./frontend/public/add-customer.png)
----
-![Update Customer](./frontend/public/update-customer.png)
----
-![All Supplier](./frontend/public/all-suppliers.png)
----
-![Add Supplier](./frontend/public/add-supplier.png)
----
-![Update Supplier](./frontend/public/update-supplier.png)
----
-![BeforeInvoice](./frontend/public/invoice1.png)
----
-![AfterInvoice](./frontend/public/invoice2.png)
----
-
-
-
+## Documentation
+Click on link use api- ([API Documentation](https://abc-invoices.onrender.com/api-docs/))
+![API Documentation](./frontend/public/Swagger-UI.png)
 
 ## Installation
+
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/Chandan8018/ABC_INVOICES.git
@@ -201,6 +176,35 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 ├── package.json
 └── README.md
 ```
+## Demo
+
+![Home Page](./frontend/public/home.png)
+---
+![Sign Up](./frontend/public/sign-up.png)
+---
+![Sign In](./frontend/public/sign-in.png)
+---
+![Update Profile](./frontend/public/update-profile.png)
+---
+![SideBar](./frontend/public/sidebar.png)
+---
+![All Customers](./frontend/public/all-customers.png)
+---
+![Add Customer](./frontend/public/add-customer.png)
+---
+![Update Customer](./frontend/public/update-customer.png)
+---
+![All Supplier](./frontend/public/all-suppliers.png)
+---
+![Add Supplier](./frontend/public/add-supplier.png)
+---
+![Update Supplier](./frontend/public/update-supplier.png)
+---
+![BeforeInvoice](./frontend/public/invoice1.png)
+---
+![AfterInvoice](./frontend/public/invoice2.png)
+---
+
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 ---

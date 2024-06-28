@@ -107,7 +107,7 @@ router.get("/getCustomers", getCustomers);
  *     summary: Update a Customer Details
  *     description: Update Customer Details with the specified customer ID and user ID
  *     tags:
- *       - customers
+ *       - Customers
  *     parameters:
  *       - in: path
  *         name: customerId
