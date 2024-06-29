@@ -178,6 +178,8 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 ```
 ## Demo
 
+![AfterInvoice](./frontend/public/invoice2.png)
+---
 ![Home Page](./frontend/public/home.png)
 ---
 ![Sign Up](./frontend/public/sign-up.png)
@@ -202,8 +204,7 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 ---
 ![BeforeInvoice](./frontend/public/invoice1.png)
 ---
-![AfterInvoice](./frontend/public/invoice2.png)
----
+
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
