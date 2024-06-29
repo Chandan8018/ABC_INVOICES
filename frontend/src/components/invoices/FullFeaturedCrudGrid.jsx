@@ -23,14 +23,14 @@ const calculateNetAmount = (row) => {
   return row.unitPrice * row.quantity - row.discount;
 };
 
-const calculateTaxType = (row) => {
-  return row.placeOfSupply === row.placeOfDelivery ? "CGST/SGST" : "IGST";
+const calculateTaxType = (row, placeOfSupply, placeOfDelivery) => {
+  return placeOfSupply === placeOfDelivery ? "CGST(9%)/SGST(9%)" : "IGST(18%)";
 };
 
-const calculateTaxAmount = (row) => {
+const calculateTaxAmount = (row, placeOfSupply, placeOfDelivery) => {
   const netAmount = calculateNetAmount(row);
   const taxRate = row.taxRate / 100;
-  if (calculateTaxType(row) === "CGST/SGST") {
+  if (calculateTaxType(row, placeOfSupply, placeOfDelivery) === "CGST/SGST") {
     const cgstSgstRate = taxRate / 2;
     return netAmount * cgstSgstRate * 2;
   } else {
@@ -38,46 +38,25 @@ const calculateTaxAmount = (row) => {
   }
 };
 
-const calculateTotalAmount = (row) => {
+const calculateTotalAmount = (row, placeOfSupply, placeOfDelivery) => {
   const netAmount = calculateNetAmount(row);
-  const taxAmount = calculateTaxAmount(row);
+  const taxAmount = calculateTaxAmount(row, placeOfSupply, placeOfDelivery);
   return netAmount + taxAmount;
 };
 
 // Function to initialize rows with calculated values
-const initializeRows = (rows) => {
+const initializeRows = (rows, placeOfSupply, placeOfDelivery) => {
   return rows.map((row) => ({
     ...row,
     netAmount: calculateNetAmount(row),
-    totalAmount: calculateTotalAmount(row),
+    totalAmount: calculateTotalAmount(row, placeOfSupply, placeOfDelivery),
+    taxType: calculateTaxType(row, placeOfSupply, placeOfDelivery),
   }));
 };
 
-const initialRows = initializeRows([
-  {
-    id: randomId(),
-    description: "Product 1",
-    quantity: 10,
-    unitPrice: 100,
-    discount: 5,
-    placeOfSupply: "Location A",
-    placeOfDelivery: "Location A",
-    taxRate: 18,
-  },
-  {
-    id: randomId(),
-    description: "Product 2",
-    quantity: 5,
-    unitPrice: 200,
-    discount: 10,
-    placeOfSupply: "Location B",
-    placeOfDelivery: "Location C",
-    taxRate: 18,
-  },
-]);
-
 function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
+  const { setRows, setRowModesModel, theme, placeOfSupply, placeOfDelivery } =
+    props;
 
   const handleClick = () => {
     const id = randomId();
@@ -105,15 +84,25 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
-      <Button color='primary' startIcon={<AddIcon />} onClick={handleClick}>
+      <Button
+        color='primary'
+        startIcon={<AddIcon />}
+        onClick={handleClick}
+        sx={{ color: theme === "dark" ? "white" : "black" }}
+      >
         Add Product
       </Button>
     </GridToolbarContainer>
   );
 }
 
-export default function FullFeaturedCrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
+export default function FullFeaturedCrudGrid({
+  placeOfSupply,
+  placeOfDelivery,
+}) {
+  const [rows, setRows] = React.useState(
+    initializeRows([], placeOfSupply, placeOfDelivery)
+  );
   const [rowModesModel, setRowModesModel] = React.useState({});
   const { theme } = useSelector((state) => state.theme);
 
@@ -152,11 +141,16 @@ export default function FullFeaturedCrudGrid() {
 
   const processRowUpdate = (newRow) => {
     const netAmount = calculateNetAmount(newRow);
-    const totalAmount = calculateTotalAmount(newRow);
+    const totalAmount = calculateTotalAmount(
+      newRow,
+      placeOfSupply,
+      placeOfDelivery
+    );
     const updatedRow = {
       ...newRow,
       netAmount,
       totalAmount,
+      taxType: calculateTaxType(newRow, placeOfSupply, placeOfDelivery),
       isNew: false,
     };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
@@ -213,31 +207,13 @@ export default function FullFeaturedCrudGrid() {
       width: 100,
       editable: false,
     },
-    // {
-    //   field: "placeOfSupply",
-    //   headerName: "Place of Supply",
-    //   type: "string",
-    //   align: "left",
-    //   headerAlign: "left",
-    //   width: 150,
-    //   editable: true,
-    // },
-    // {
-    //   field: "placeOfDelivery",
-    //   headerName: "Place of Delivery",
-    //   type: "string",
-    //   align: "left",
-    //   headerAlign: "left",
-    //   width: 150,
-    //   editable: true,
-    // },
     {
-      field: "taxRate",
-      headerName: "Tax Rate(%)",
-      type: "number",
+      field: "taxType",
+      headerName: "Tax Type",
+      type: "string",
       align: "left",
       headerAlign: "left",
-      width: 100,
+      width: 150,
       editable: false,
     },
     {
@@ -264,14 +240,24 @@ export default function FullFeaturedCrudGrid() {
               icon={<SaveIcon />}
               label='Save'
               sx={{
-                color: "primary.main",
+                color: theme === "dark" ? "white" : "#878E9B",
+                backgroundColor: "green",
+                "&:hover": {
+                  color: "#878E9B",
+                },
               }}
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
               icon={<CancelIcon />}
               label='Cancel'
-              className='textPrimary'
+              sx={{
+                color: theme === "dark" ? "white" : "#878E9B",
+                backgroundColor: "red",
+                "&:hover": {
+                  color: theme === "dark" ? "#878E9B" : "white",
+                },
+              }}
               onClick={handleCancelClick(id)}
               color='inherit'
             />,
@@ -282,13 +268,26 @@ export default function FullFeaturedCrudGrid() {
           <GridActionsCellItem
             icon={<EditIcon />}
             label='Edit'
-            className='textPrimary'
+            sx={{
+              color: theme === "dark" ? "#878E9B" : "white",
+              backgroundColor: "blue",
+              "&:hover": {
+                color: theme === "dark" ? "white" : "#878E9B",
+              },
+            }}
             onClick={handleEditClick(id)}
             color='inherit'
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label='Delete'
+            sx={{
+              color: theme === "dark" ? "#878E9B" : "white",
+              backgroundColor: "red",
+              "&:hover": {
+                color: theme === "dark" ? "white" : "#878E9B",
+              },
+            }}
             onClick={handleDeleteClick(id)}
             color='inherit'
           />,
@@ -303,10 +302,10 @@ export default function FullFeaturedCrudGrid() {
         height: 300,
         width: "100%",
         "& .actions": {
-          color: "text.secondary",
+          color: theme === "dark" ? "#878E9B" : "black",
         },
         "& .textPrimary": {
-          color: "text.primary",
+          color: theme === "dark" ? "#878E9B" : "black",
         },
         marginTop: "20px",
         marginBottom: "90px",
@@ -321,21 +320,58 @@ export default function FullFeaturedCrudGrid() {
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
         slots={{
-          toolbar: EditToolbar,
+          toolbar: (props) => (
+            <EditToolbar
+              {...props}
+              placeOfSupply={placeOfSupply}
+              placeOfDelivery={placeOfDelivery}
+            />
+          ),
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, theme },
+        }}
+        sx={{
+          borderBottomLeftRadius: "none",
+          "& .MuiDataGrid-row": {
+            color: (params) =>
+              rowModesModel[params.id]?.mode === GridRowModes.Edit
+                ? "black"
+                : theme === "dark"
+                ? "#878E9B"
+                : "black",
+          },
+          "& .MuiTablePagination-root": {
+            color: theme === "dark" ? "#878E9B" : "black",
+          },
+          "& .MuiDataGrid-selectedRowCount": {
+            color: theme === "dark" ? "#1D56C0" : "black",
+          },
+          "& .MuiSelect-icon": {
+            color: theme === "dark" && "#878E9B",
+          },
+          "& .MuiTablePagination-actions button": {
+            color: theme === "dark" ? "#878E9B" : "inherit",
+          },
         }}
       />
-      <div className='w-full pl-1 border-[1px] border-opacity-35 dark:border-opacity-55  border-solid border-black dark:border-white dark:bg-slate-800 flex-col items-start gap-2'>
+      <div
+        className={`w-full pl-1 border-[1px] border-opacity-35 ${
+          theme === "dark"
+            ? "dark:border-opacity-55 border-white dark:bg-slate-800"
+            : "border-black bg-white"
+        } flex-col items-start gap-2`}
+      >
         <div className='w-full py-2 text-xl font-semibold tracking-tighter flex justify-between pr-5'>
           <span>Total: </span>
-          <span className='text-md '>{`₹ ${totalAmount.toFixed(2)} /-`}</span>
+          <span className='text-md dark:text-[#878E9B]'>{`₹ ${totalAmount.toFixed(
+            2
+          )} /-`}</span>
         </div>
         <hr />
         <div className='w-full py-2 md:text-xl font-semibold tracking-tighter flex flex-wrap justify-between pr-5'>
           <span>Amount in words: </span>
-          <span className=' text-sm md:text-[18px] font-light '>
+          <span className='text-sm md:text-[18px] font-light dark:text-[#878E9B]'>
             {amountInWords}
           </span>
         </div>

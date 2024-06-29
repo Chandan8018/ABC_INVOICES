@@ -20,19 +20,29 @@ import html2canvas from "html2canvas";
 import InvoiceDocument from "./InvoiceDocument "; // Assuming you create InvoiceDocument.js for PDF structure
 
 function Invoice() {
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
   const [suppliersName, setSuppliersName] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [supplierDetails, setSupplierDetails] = useState([]);
   const [supplierFetched, setSupplierFetched] = useState(false);
   const [supplierFound, setSupplierFound] = useState(false);
+  const [placeOfSupply, setPlaceOfSupply] = useState("");
 
   const [customersName, setCustomersName] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [customerDetails, setCustomerDetails] = useState([]);
   const [customerFetched, setCustomerFetched] = useState(false);
   const [customerFound, setCustomerFound] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
+  const [placeOfDelivery, setPlaceOfDelivery] = useState("");
+
+  useEffect(() => {
+    if (supplierFound && customerFound) {
+      setPlaceOfSupply(supplierDetails[0].state);
+      setPlaceOfDelivery(customerDetails[0].state);
+    }
+  }, [supplierFound, customerFound]);
 
   useEffect(() => {
     const fetchSuppliers = async () => {
@@ -147,7 +157,7 @@ function Invoice() {
                   <CircularProgress color='success' />
                 </Stack>
               ) : (
-                <div>
+                <div className='dark:text-[#878E9B]'>
                   <span className='text-xl font-semibold'>Sold By:</span>
                   <p>{supplierDetails[0].name}</p>
                   <p className='text-sm'>{supplierDetails[0].address}</p>
@@ -167,7 +177,10 @@ function Invoice() {
             ) : (
               <>
                 <FormControl sx={{ m: 1, minWidth: 150 }}>
-                  <InputLabel id='demo-simple-select-helper-label'>
+                  <InputLabel
+                    id='demo-simple-select-helper-label'
+                    sx={{ color: theme === "dark" && "#878E9B" }}
+                  >
                     Supplier
                   </InputLabel>
                   <Select
@@ -180,6 +193,15 @@ function Invoice() {
                       setSupplierFound(true);
                       setSupplierFetched(true);
                     }}
+                    sx={{
+                      border: theme === "dark" && "1px solid #878E9B",
+                      "& .MuiSelect-icon": {
+                        color: theme === "dark" && "#878E9B",
+                      },
+                      "&.Mui-focused": {
+                        border: "none",
+                      },
+                    }}
                   >
                     <MenuItem value=''>
                       <em>None</em>
@@ -190,7 +212,7 @@ function Invoice() {
                       </MenuItem>
                     ))}
                   </Select>
-                  <FormHelperText>
+                  <FormHelperText sx={{ color: theme === "dark" && "#878E9B" }}>
                     Select supplier otherwise click below button.
                   </FormHelperText>
                 </FormControl>
@@ -226,7 +248,7 @@ function Invoice() {
                   <CircularProgress color='success' />
                 </Stack>
               ) : (
-                <div>
+                <div className='dark:text-[#878E9B]'>
                   <div className='flex flex-col items-end'>
                     <span className='text-xl font-semibold'>
                       Billing Address:
@@ -254,7 +276,10 @@ function Invoice() {
               <div className='flex justify-end'>
                 <div>
                   <FormControl sx={{ m: 1, minWidth: 150 }}>
-                    <InputLabel id='demo-simple-select-helper-label'>
+                    <InputLabel
+                      id='demo-simple-select-helper-label'
+                      sx={{ color: theme === "dark" && "#878E9B" }}
+                    >
                       Customer
                     </InputLabel>
                     <Select
@@ -267,6 +292,15 @@ function Invoice() {
                         setCustomerFound(true);
                         setCustomerFetched(true);
                       }}
+                      sx={{
+                        border: theme === "dark" && "1px solid #878E9B",
+                        "& .MuiSelect-icon": {
+                          color: theme === "dark" && "#878E9B",
+                        },
+                        "&.Mui-focused": {
+                          border: "none",
+                        },
+                      }}
                     >
                       <MenuItem value=''>
                         <em>None</em>
@@ -277,7 +311,9 @@ function Invoice() {
                         </MenuItem>
                       ))}
                     </Select>
-                    <FormHelperText>
+                    <FormHelperText
+                      sx={{ color: theme === "dark" && "#878E9B" }}
+                    >
                       Select customer otherwise click below button.
                     </FormHelperText>
                   </FormControl>
@@ -307,7 +343,7 @@ function Invoice() {
             )}
           </div>
           {/* 3rd Grid */}
-          <div className=''>
+          <div className='dark:text-[#878E9B]'>
             <h3>
               <span className='font-bold tracking-tighter'>Order Number:</span>
             </h3>
@@ -316,7 +352,8 @@ function Invoice() {
               {new Date().toLocaleDateString()}
             </h3>
           </div>
-          <div className='flex flex-col items-end'>
+          {/* 4th Grid */}
+          <div className='flex flex-col items-end dark:text-[#878E9B]'>
             <h3>
               <span className='font-bold tracking-tighter'>
                 Invoice Number:
@@ -328,11 +365,14 @@ function Invoice() {
             </h3>
           </div>
         </div>
-        <FullFeaturedCrudGrid />
+        <FullFeaturedCrudGrid
+          placeOfSupply={placeOfSupply}
+          placeOfDelivery={placeOfDelivery}
+        />
 
         {supplierFound && (
           <div className='w-full pr-1 border-[1px] border-opacity-35 dark:border-opacity-55 border-solid border-black dark:border-white dark:bg-slate-800 flex flex-col items-end gap-2'>
-            <span className='font-bold text-xl'>
+            <span className='font-bold text-xl dark:text-[#878E9B]'>
               for {supplierDetails[0].name}
             </span>
             <img
@@ -340,7 +380,9 @@ function Invoice() {
               alt={`${supplierDetails[0].name} Signature`}
               className='w-48 h-10 border-[2px] border-solid border-black dark:border-white dark:bg-slate-800'
             />
-            <span className='font-bold text-xl'>Authorized Signatory</span>
+            <span className='font-bold text-xl dark:text-[#878E9B]'>
+              Authorized Signatory
+            </span>
           </div>
         )}
         <div className='flex justify-end mt-4'>
