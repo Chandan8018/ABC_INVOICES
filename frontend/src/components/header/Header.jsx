@@ -64,7 +64,7 @@ function Header() {
     >
       <NavbarBrand>
         <Link to='/'>
-          <span className='flex justify-start items-center whitespace-nowrap text-xl font-semibold dark:text-white pl-7'>
+          <span className='flex justify-start items-center whitespace-nowrap text-xl font-semibold dark:text-white md:pl-7'>
             <span className='bg-blue-500 dark:bg-[#ff5555] rounded-xl rounded-tr-none rounded-br-none py-1 px-1 text-xl font-bold'>
               ABC
             </span>{" "}
