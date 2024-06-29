@@ -13,7 +13,6 @@ import { toggleTheme } from "../../redux/theme/themeSlice";
 import { Button } from "../ui/moving-border";
 import { ImProfile } from "react-icons/im";
 import { signoutSuccess } from "../../redux/user/userSlice";
-import { PlaceholdersAndVanishInput } from "../ui/placeholders-and-vanish-input";
 import { Avatar } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
@@ -74,15 +73,6 @@ function Header() {
           </span>
         </Link>
       </NavbarBrand>
-      <PlaceholdersAndVanishInput
-        placeholders={[
-          "What's the first rule of Fight Club?",
-          "Who is Tyler Durden?",
-          "Where is Andrew Laeddis Hiding?",
-          "Write a Javascript method to reverse a string",
-          "How to assemble your own PC?",
-        ]}
-      />
       <div className='flex gap-5 md:order-2 md:pr-10'>
         <Button
           borderRadius='1.75rem'

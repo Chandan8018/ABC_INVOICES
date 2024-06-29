@@ -99,6 +99,7 @@ function EditToolbar(props) {
 export default function FullFeaturedCrudGrid({
   placeOfSupply,
   placeOfDelivery,
+  setInvoiceData,
 }) {
   const [rows, setRows] = React.useState(
     initializeRows([], placeOfSupply, placeOfDelivery)
@@ -109,6 +110,22 @@ export default function FullFeaturedCrudGrid({
   const totalAmount = rows.reduce((sum, row) => sum + row.totalAmount, 0);
   const amountInWords = toWords.convert(totalAmount, { currency: true });
 
+  React.useEffect(() => {
+    setInvoiceData({
+      items: rows.map((row) => ({
+        description: row.description,
+        unitPrice: row.unitPrice,
+        quantity: row.quantity,
+        discount: row.discount,
+        netAmount: row.netAmount,
+        taxRate: row.taxRate,
+        taxType: row.taxType,
+        totalAmount: row.totalAmount,
+      })),
+      totalAmount,
+      amountInWords,
+    });
+  }, [rows]);
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;

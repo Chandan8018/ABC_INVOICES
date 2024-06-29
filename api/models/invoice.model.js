@@ -12,7 +12,7 @@ const invoiceSchema = mongoose.Schema(
           required: true,
         },
         unitPrice: {
-          type: String,
+          type: Number,
           required: true,
         },
         quantity: {
@@ -28,6 +28,12 @@ const invoiceSchema = mongoose.Schema(
         taxRate: {
           type: Number,
         },
+        taxType: {
+          type: String,
+        },
+        totalAmount: {
+          type: Number,
+        },
       },
     ],
 
@@ -38,11 +44,9 @@ const invoiceSchema = mongoose.Schema(
       },
       email: {
         type: String,
-        unique: true,
       },
       phone: {
         type: String,
-        unique: true,
       },
       address: {
         type: String,
@@ -65,11 +69,9 @@ const invoiceSchema = mongoose.Schema(
       },
       email: {
         type: String,
-        unique: true,
       },
       phone: {
         type: String,
-        unique: true,
       },
       address: {
         type: String,
@@ -95,8 +97,20 @@ const invoiceSchema = mongoose.Schema(
       },
     },
     totalAmount: {
-      type: String,
+      type: Number,
       required: true,
+    },
+    amountInWords: {
+      type: String,
+    },
+    placeOfSupply: {
+      type: String,
+    },
+    placeOfDelivery: {
+      type: String,
+    },
+    orderNumber: {
+      type: String,
     },
   },
   { timestamps: true }

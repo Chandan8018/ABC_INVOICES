@@ -2,14 +2,6 @@ import Invoice from "../models/invoice.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createInvoice = async (req, res, next) => {
-  if (
-    !req.body.items ||
-    !req.body.customer ||
-    !req.body.supplier ||
-    !req.body.totalAmount
-  ) {
-    return next(errorHandler(400, "Please provide all required fields"));
-  }
   const newInvoice = new Invoice({
     ...req.body,
     userId: req.user.id,
@@ -27,7 +19,7 @@ export const getInvoices = async (req, res, next) => {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
-    const customers = await Invoice.find({
+    const invoices = await Invoice.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.invoiceId && { _id: req.query.invoiceId }),
     })
@@ -37,7 +29,7 @@ export const getInvoices = async (req, res, next) => {
 
     const totalInvoices = await Invoice.countDocuments();
     res.status(200).json({
-      customers,
+      invoices,
       totalInvoices,
     });
   } catch (error) {

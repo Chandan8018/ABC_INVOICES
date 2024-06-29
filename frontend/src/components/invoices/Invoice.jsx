@@ -16,8 +16,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import html2canvas from "html2canvas";
 import InvoiceDocument from "./InvoiceDocument "; // Assuming you create InvoiceDocument.js for PDF structure
+import { Button } from "../ui/moving-border";
+import { Alert, Modal } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+
+function generateAlphaNumericCode() {
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let code = "";
+  for (let i = 0; i < 3; i++) {
+    let randomIndex = Math.floor(Math.random() * 26);
+    code += characters[randomIndex];
+  }
+  for (let i = 0; i < 3; i++) {
+    let randomIndex = Math.floor(Math.random() * 10) + 26;
+    code += characters[randomIndex];
+  }
+  return code;
+}
 
 function Invoice() {
   const navigate = useNavigate();
@@ -36,11 +52,87 @@ function Invoice() {
   const [customerFetched, setCustomerFetched] = useState(false);
   const [customerFound, setCustomerFound] = useState(false);
   const [placeOfDelivery, setPlaceOfDelivery] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+  const [invoiceData, setInvoiceData] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [showModal, setShowModal] = useState(false);
+
+  const handleAssignData = () => {
+    if (supplierFound && customerFound) {
+      setFormData({
+        items: invoiceData.items,
+        customer: {
+          name: customerDetails[0].name,
+          email: customerDetails[0].email,
+          phone: customerDetails[0].phone,
+          address: customerDetails[0].address,
+          state: customerDetails[0].state,
+          country: customerDetails[0].country,
+        },
+        supplier: {
+          name: supplierDetails[0].name,
+          email: supplierDetails[0].email,
+          phone: supplierDetails[0].phone,
+          address: supplierDetails[0].address,
+          PAN: supplierDetails[0].PAN,
+          GST: supplierDetails[0].GST,
+          state: supplierDetails[0].state,
+          country: supplierDetails[0].country,
+          signature: supplierDetails[0].signature,
+        },
+        totalAmount: invoiceData.totalAmount,
+        amountInWords: invoiceData.amountInWords,
+        orderNumber: orderNumber,
+        placeOfSupply: placeOfSupply,
+        placeOfDelivery: placeOfDelivery,
+      });
+      setShowModal(true);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (
+      !supplierFound ||
+      !customerFound ||
+      supplierFound === "" ||
+      customerFound === ""
+    ) {
+      return setErrorMessage("Please select supplier and customer");
+    }
+
+    try {
+      const res = await fetch("/api/invoice/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setErrorMessage(data.message);
+        setShowModal(false);
+        return;
+      }
+
+      if (res.ok) {
+        console.log("Chandan");
+        setErrorMessage(null);
+        setShowModal(false);
+        navigate("/dashboard?tab=view-customers");
+      }
+    } catch (error) {
+      setShowModal(false);
+      setErrorMessage("Something went wrong last", error);
+    }
+  };
 
   useEffect(() => {
     if (supplierFound && customerFound) {
       setPlaceOfSupply(supplierDetails[0].state);
       setPlaceOfDelivery(customerDetails[0].state);
+      setOrderNumber(generateAlphaNumericCode());
     }
   }, [supplierFound, customerFound]);
 
@@ -175,7 +267,7 @@ function Invoice() {
                 </div>
               )
             ) : (
-              <>
+              <div className='mb-10'>
                 <FormControl sx={{ m: 1, minWidth: 150 }}>
                   <InputLabel
                     id='demo-simple-select-helper-label'
@@ -222,6 +314,7 @@ function Invoice() {
                     height: 120,
                     transform: "translateZ(0px)",
                     flexGrow: 1,
+                    marginTop: "-55px",
                   }}
                 >
                   <SpeedDial
@@ -237,7 +330,7 @@ function Invoice() {
                     />
                   </SpeedDial>
                 </Box>
-              </>
+              </div>
             )}
           </div>
           {/* Customer Details / 2nd Grid */}
@@ -273,7 +366,7 @@ function Invoice() {
                 </div>
               )
             ) : (
-              <div className='flex justify-end'>
+              <div className='flex justify-end mb-10'>
                 <div>
                   <FormControl sx={{ m: 1, minWidth: 150 }}>
                     <InputLabel
@@ -323,6 +416,8 @@ function Invoice() {
                       height: 120,
                       transform: "translateZ(0px)",
                       flexGrow: 1,
+                      marginRight: "-135px",
+                      marginTop: "-55px",
                     }}
                   >
                     <SpeedDial
@@ -343,33 +438,59 @@ function Invoice() {
             )}
           </div>
           {/* 3rd Grid */}
-          <div className='dark:text-[#878E9B]'>
-            <h3>
-              <span className='font-bold tracking-tighter'>Order Number:</span>
-            </h3>
-            <h3>
-              <span className='font-bold tracking-tighter'>Order Date:</span>{" "}
-              {new Date().toLocaleDateString()}
-            </h3>
-          </div>
+          {supplierFound && customerFound && (
+            <div className='flex flex-col justify-end dark:text-[#878E9B]'>
+              <h3>
+                <span className='font-bold tracking-tighter'>
+                  Order Number:{" "}
+                </span>
+                {orderNumber}
+              </h3>
+              <h3>
+                <span className='font-bold tracking-tighter'>Order Date:</span>{" "}
+                {new Date().toLocaleDateString()}
+              </h3>
+            </div>
+          )}
+
           {/* 4th Grid */}
-          <div className='flex flex-col items-end dark:text-[#878E9B]'>
-            <h3>
-              <span className='font-bold tracking-tighter'>
-                Invoice Number:
-              </span>
-            </h3>
-            <h3>
-              <span className='font-bold tracking-tighter'>Invoice Date:</span>{" "}
-              {new Date().toLocaleDateString()}
-            </h3>
-          </div>
+          {supplierFound && customerFound && (
+            <div className='flex flex-col gap-2'>
+              <div className='flex flex-col items-end dark:text-[#878E9B]'>
+                <h3>
+                  <span className='font-bold tracking-tighter'>
+                    Place of Supply:{" "}
+                  </span>
+                  {placeOfSupply}
+                </h3>
+                <h3>
+                  <span className='font-bold tracking-tighter'>
+                    Place of Delivery:{" "}
+                  </span>
+                  {placeOfDelivery}
+                </h3>
+              </div>
+              <div className='flex flex-col items-end dark:text-[#878E9B]'>
+                <h3>
+                  <span className='font-bold tracking-tighter'>
+                    Invoice Number:
+                  </span>
+                </h3>
+                <h3>
+                  <span className='font-bold tracking-tighter'>
+                    Invoice Date:
+                  </span>{" "}
+                  {new Date().toLocaleDateString()}
+                </h3>
+              </div>
+            </div>
+          )}
         </div>
         <FullFeaturedCrudGrid
           placeOfSupply={placeOfSupply}
           placeOfDelivery={placeOfDelivery}
+          setInvoiceData={setInvoiceData}
         />
-
         {supplierFound && (
           <div className='w-full pr-1 border-[1px] border-opacity-35 dark:border-opacity-55 border-solid border-black dark:border-white dark:bg-slate-800 flex flex-col items-end gap-2'>
             <span className='font-bold text-xl dark:text-[#878E9B]'>
@@ -385,23 +506,72 @@ function Invoice() {
             </span>
           </div>
         )}
-        <div className='flex justify-end mt-4'>
-          <PDFDownloadLink
-            document={
-              supplierFound &&
-              customerFound && (
-                <InvoiceDocument
-                  invoiceData={{ supplierDetails, customerDetails }}
-                />
-              )
-            }
-            fileName='invoice.pdf'
-          >
-            {({ blob, url, loading, error }) =>
-              loading ? "Loading document..." : "Download PDF"
-            }
-          </PDFDownloadLink>
+        {errorMessage && (
+          <Alert className='mt-5' color='failure'>
+            {errorMessage}
+          </Alert>
+        )}
+        <div className='flex justify-between pt-5'>
+          <div>
+            <Button
+              borderRadius='1.75rem'
+              className='bg-transparent border-slate-800 text-sm font-semibold text-black dark:text-white h-10 w-36'
+              onClick={handleAssignData}
+            >
+              Save Invoice
+            </Button>
+          </div>
+          <div className='flex justify-end mt-4'>
+            <PDFDownloadLink
+              document={
+                supplierFound &&
+                customerFound && (
+                  <InvoiceDocument
+                    invoiceData={{ supplierDetails, customerDetails }}
+                  />
+                )
+              }
+              fileName='invoice.pdf'
+            >
+              {({ blob, url, loading, error }) =>
+                loading ? "Loading document..." : "Download PDF"
+              }
+            </PDFDownloadLink>
+          </div>
         </div>
+        <Modal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          popup
+          size='md'
+        >
+          <Modal.Header />
+          <Modal.Body>
+            <div className='text-center'>
+              <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+              <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+                Are you sure you want to generate this invoice otherwise you
+                can't modify?
+              </h3>
+              <div className='flex justify-center gap-4'>
+                <Button
+                  borderRadius='4px'
+                  className='bg-red-500 text-white border-slate-800 h-10 rounded-[3px]'
+                  onClick={handleSubmit}
+                >
+                  Yes, I'm sure
+                </Button>
+                <Button
+                  borderRadius='4px'
+                  className='bg-transparent dark:text-white text-black border-slate-800 h-10 rounded-[3px]'
+                  onClick={() => setShowModal(false)}
+                >
+                  No, cancel
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </BackgroundGradient>
     </div>
   );
