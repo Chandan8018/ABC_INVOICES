@@ -1,4 +1,4 @@
-# Dynamic Invoice
+# Invoice Generation
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -14,20 +14,22 @@
 - [Contact](#contact)
 
 ## Project Overview
-The Online Quiz Platform is a web application that allows users to take quizzes, view their scores, and review correct answers. Admins can create and manage quizzes with multiple-choice questions. This application is built with modern web technologies to ensure a responsive and user-friendly experience.
+This project involves generating a detailed invoice based on various input parameters, including seller details, order details, item details, and tax calculations. The invoice will also include placeholders for the company logo and the seller's signature image.
 
 ## Features
-- **Quiz Creation (Admin)**: Admins can create quizzes with multiple-choice questions.
-- **Take Quiz (User)**: Users can take quizzes by answering multiple-choice questions.
-- **Submit Quiz**: Users can submit their answers and receive a score.
-- **View Results**: Users can view their scores and correct answers after submission.
-- **Review Answers**: Users can review their answers with the correct ones highlighted.
-- **Local Storage**: Quiz progress is saved in local storage, allowing users to resume later.
+- **Dynamic Input Handling**: Easily input and manage seller, billing, and shipping details.
+- **Tax Computation**: Automatically compute tax types and amounts based on the place of supply and delivery.
+- **Net Amount Calculation**: Derive net amounts for each item considering unit price, quantity, and discounts.
+- **Detailed Item Listing**: List multiple items with comprehensive details including description, unit price, quantity, discount, and net amount.
+- **Total Amount Calculation**: Compute the total amount including tax for all items.
+- **Amount in Words**: Convert the total amount to words for easy readability.
+- **Signature and Authorization**: Insert seller's signature image and authorization note.
+- **Company Logo**: Placeholder for including the company logo in the invoice.
 - **Responsive Design**: The application is mobile-friendly and has a clean design.
 
 ## Technologies Used
-- **Frontend**: React, Vite, JavaScript, Tailwind CSS, Framer Motion, and MUI
-- **Backend**: Node.js, Express
+- **Frontend**: React, Vite, JavaScript, Tailwind CSS, Flowbite, firebase, to-words, Framer Motion, and MUI
+- **Backend**: Node.js, Express, jsonwebtoken,jsonwebtoken, and swagger-ui(API-Docometation)
 - **Database**: MongoDB
 - **State Management**: Redux
 - **Authentication**: Google OAuth
