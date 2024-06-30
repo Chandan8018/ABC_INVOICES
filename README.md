@@ -1,4 +1,4 @@
-# Invoice Generation
+# Invoice Generation For e-commerce Web.
 
 ## Table of Contents
 - [Project Overview](#project-overview)
@@ -36,7 +36,7 @@ This project involves generating a detailed invoice based on various input param
 - **Animations**: Framer Motion
 - **Hosting**: Render
 
-## Documentation
+## API-Documentation
 Click on link use api- ([API Documentation](https://abc-invoices.onrender.com/api-docs/))
 ![API Documentation](./frontend/public/Swagger-UI.png)
 
@@ -179,32 +179,44 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 └── README.md
 ```
 ## Demo
-
+- Invoice Generation Page
 ![AfterInvoice](./frontend/public/invoice2.png)
 ---
+- Home Page
 ![Home Page](./frontend/public/home.png)
 ---
+- Sign-Up Page
 ![Sign Up](./frontend/public/sign-up.png)
 ---
+- Sign-In Page
 ![Sign In](./frontend/public/sign-in.png)
 ---
+- User Profile Update Page
 ![Update Profile](./frontend/public/update-profile.png)
 ---
+- Side Bar
 ![SideBar](./frontend/public/sidebar.png)
 ---
+- Preview All Customers Page
 ![All Customers](./frontend/public/all-customers.png)
 ---
+- Add Customer Page
 ![Add Customer](./frontend/public/add-customer.png)
 ---
+- Update Customer Page
 ![Update Customer](./frontend/public/update-customer.png)
 ---
+- Preview All Suppliers Page
 ![All Supplier](./frontend/public/all-suppliers.png)
 ---
+- Add Supplier Page
 ![Add Supplier](./frontend/public/add-supplier.png)
 ---
+- Update Supplier Page
 ![Update Supplier](./frontend/public/update-supplier.png)
 ---
-![BeforeInvoice](./frontend/public/invoice1.png)
+- Initial Invoice Page
+![BeforeInvoice](./frontend/public/initial-invoice.png)
 ---
 
 
