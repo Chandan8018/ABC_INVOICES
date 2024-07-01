@@ -27,7 +27,38 @@ export const getInvoices = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
-    res.status(200).json(invoices);
+    const totalInvoices = await Invoice.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthInvoices = await Invoice.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    const lastMonthOrders = await Invoice.find({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    const lastMonthOrderAmounts = lastMonthOrders.reduce(
+      (sum, order) => sum + order.totalAmount,
+      0
+    );
+
+    const totalOrderAmounts = invoices.reduce(
+      (sum, order) => sum + order.totalAmount,
+      0
+    );
+
+    res.status(200).json({
+      invoices,
+      totalInvoices,
+      lastMonthInvoices,
+      totalOrderAmounts: Math.round(totalOrderAmounts),
+      lastMonthOrderAmounts: Math.round(lastMonthOrderAmounts),
+    });
   } catch (error) {
     next(error);
   }

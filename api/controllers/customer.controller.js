@@ -36,11 +36,21 @@ export const getCustomers = async (req, res, next) => {
       .sort({ updateAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
-
     const totalCustomers = await Customer.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+    const lastMonthCustomers = await Customer.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
     res.status(200).json({
       customers,
       totalCustomers,
+      lastMonthCustomers,
     });
   } catch (error) {
     next(error);

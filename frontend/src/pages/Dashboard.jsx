@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <>
       <div className='min-h-screen flex items-start gap-1'>
-        <div className='mt-10'>
+        <div className='mt-10 z-50'>
           {/* SideBar  */}
           <SideBarComp />
         </div>

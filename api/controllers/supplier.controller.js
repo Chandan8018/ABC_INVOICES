@@ -28,7 +28,7 @@ export const getSuppliers = async (req, res, next) => {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
-    const suppliers = await supplier
+    const getdata = await supplier
       .find({
         ...(req.query.userId && { userId: req.query.userId }),
         ...(req.query.name && { name: req.query.name }),
@@ -37,6 +37,10 @@ export const getSuppliers = async (req, res, next) => {
       .sort({ updateAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
+
+    const suppliers = getdata.filter(
+      (supplier) => supplier.userId === req.user.id
+    );
 
     const totalSuppliers = await supplier.countDocuments();
     res.status(200).json({
