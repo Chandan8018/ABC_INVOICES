@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.post("/create", verifyToken, createInvoice);
-router.get("/getInvoices", getInvoices);
+router.get("/getInvoices", verifyToken, getInvoices);
 router.delete("/delete/:invoiceId/:userId", verifyToken, deleteInvoice);
 
 export default router;

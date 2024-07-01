@@ -91,6 +91,19 @@ export const Updatesupp = [
   },
 ];
 
+export const NoSupplier = [
+  {
+    text: "There",
+  },
+  {
+    text: "are",
+  },
+  {
+    text: "no Supplier.",
+    className: "text-blue-500 dark:text-blue-500",
+  },
+];
+
 export const home = [
   {
     text: "Get Started.",

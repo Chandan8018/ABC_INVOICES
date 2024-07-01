@@ -19,7 +19,7 @@ export const getInvoices = async (req, res, next) => {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
-    const invoices = await Invoice.find({
+    const getData = await Invoice.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.invoiceId && { _id: req.query.invoiceId }),
     })
@@ -27,20 +27,27 @@ export const getInvoices = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
-    const totalInvoices = await Invoice.countDocuments();
+    const invoices = getData.filter(
+      (invoice) => invoice.userId === req.user.id
+    );
+
+    const totalInvoices = invoices.length;
     const now = new Date();
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
       now.getDate()
     );
-    const lastMonthInvoices = await Invoice.countDocuments({
+
+    const lastMonthOrderDetails = await Invoice.find({
       createdAt: { $gte: oneMonthAgo },
     });
 
-    const lastMonthOrders = await Invoice.find({
-      createdAt: { $gte: oneMonthAgo },
-    });
+    const lastMonthOrders = lastMonthOrderDetails.filter(
+      (order) => order.userId === req.user.id
+    );
+
+    const lastMonthInvoices = lastMonthOrders.length;
 
     const lastMonthOrderAmounts = lastMonthOrders.reduce(
       (sum, order) => sum + order.totalAmount,

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Spotlight } from "../components/ui/Spotlight";
 import { Button } from "../components/ui/moving-border";
-import { Supplier } from "../data/data";
+import { Supplier, NoSupplier } from "../data/data";
 import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
@@ -100,7 +100,7 @@ function ViewSuppliers() {
             <TypewriterEffectSmooth words={Supplier} />
           </div>
 
-          {currentUser && suppliers.length > 0 && (
+          {currentUser && suppliers.length > 0 ? (
             <>
               <Table hoverable className='shadow-md'>
                 <Table.Head>
@@ -202,6 +202,13 @@ function ViewSuppliers() {
                 </button>
               )}
             </>
+          ) : (
+            <div className='flex flex-col justify-center items-center'>
+              <TypewriterEffectSmooth words={NoSupplier} />
+              <h3 className='text-2xl font-semibold'>
+                Add a new Supplier just click on below right side add button.
+              </h3>
+            </div>
           )}
           <Modal
             show={showModal}

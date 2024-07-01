@@ -42,7 +42,7 @@ export const getSuppliers = async (req, res, next) => {
       (supplier) => supplier.userId === req.user.id
     );
 
-    const totalSuppliers = await supplier.countDocuments();
+    const totalSuppliers = suppliers.length;
     res.status(200).json({
       suppliers,
       totalSuppliers,

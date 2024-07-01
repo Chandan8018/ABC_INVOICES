@@ -98,7 +98,7 @@ router.post("/create", verifyToken, createCustomer);
  *         description: Bad request
  */
 
-router.get("/getCustomers", getCustomers);
+router.get("/getCustomers", verifyToken, getCustomers);
 
 /**
  * @swagger

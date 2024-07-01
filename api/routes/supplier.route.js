@@ -106,11 +106,13 @@ router.post("/create", verifyToken, createSupplier);
  *     responses:
  *       '200':
  *         description: List of suppliers retrieved successfully
+ *       '401':
+ *         description: Unauthorized
  *       '400':
  *         description: Bad request
  */
 
-router.get("/getSuppliers", getSuppliers);
+router.get("/getSuppliers", verifyToken, getSuppliers);
 
 /**
  * @swagger
