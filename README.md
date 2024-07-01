@@ -44,7 +44,7 @@ Click on link use api- ([API Documentation](https://abc-invoices.onrender.com/ap
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/Chandan8018/ABC_INVOICES.git
+    git clone https://github.com/Chandan8018/InvoiceGeneration.git
 
     ```
 
