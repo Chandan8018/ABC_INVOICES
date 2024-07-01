@@ -203,8 +203,8 @@ function ViewSuppliers() {
               )}
             </>
           ) : (
-            <div className='flex flex-col justify-center items-center'>
-              <TypewriterEffectSmooth words={NoSupplier} />
+            <div className='flex flex-col items-center gap-10 mt-10'>
+              <h1 className='text-5xl font-bold'>No Suppliers Found</h1>
               <h3 className='text-2xl font-semibold'>
                 Add a new Supplier just click on below right side add button.
               </h3>

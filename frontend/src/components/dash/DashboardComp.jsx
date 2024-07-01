@@ -12,6 +12,9 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 import { HiArrowNarrowUp, HiOutlineUserGroup } from "react-icons/hi";
 import { FaRupeeSign, FaShoppingCart } from "react-icons/fa";
+import CustomizedProgressBars from "../spinner/CustomizedProgressBars";
+import { Button, Table } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 function DashboardComp() {
   const { currentUser } = useSelector((state) => state.user);
@@ -23,11 +26,17 @@ function DashboardComp() {
     customersDataFetchedSuccessfully,
     setCustomersDataFetchedSuccessfully,
   ] = React.useState(false);
+  const [
+    suppliersDataFetchedSuccessfully,
+    setSuppliersDataFetchedSuccessfully,
+  ] = React.useState(false);
   const [customers, setCustomers] = React.useState({});
+  const [suppliers, setSuppliers] = React.useState({});
+
   React.useEffect(() => {
-    const fetchJsonData = async () => {
+    const fetchInvoices = async () => {
       try {
-        const res = await fetch(`/api/invoice/getInvoices`);
+        const res = await fetch(`/api/invoice/getInvoices?limit=5`);
         const newData = await res.json();
         if (res.ok) {
           setInvoiceData(newData);
@@ -40,7 +49,7 @@ function DashboardComp() {
 
     const fetchCustomers = async () => {
       try {
-        const res = await fetch(`/api/customer/getCustomers`);
+        const res = await fetch(`/api/customer/getCustomers?limit=5`);
         const data = await res.json();
         if (res.ok) {
           setCustomers(data);
@@ -50,9 +59,24 @@ function DashboardComp() {
         console.log(error.message);
       }
     };
+
+    const fetchSuppliers = async () => {
+      try {
+        const res = await fetch(`/api/supplier/getSuppliers?limit=5`);
+        const data = await res.json();
+        if (res.ok) {
+          setSuppliers(data);
+          setSuppliersDataFetchedSuccessfully(true);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
     if (currentUser._id) {
+      fetchInvoices();
       fetchCustomers();
-      fetchJsonData();
+      fetchSuppliers();
     }
   }, []);
 
@@ -100,7 +124,9 @@ function DashboardComp() {
   return (
     <div className='min-h-screen w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative '>
       {/* Radial gradient for the container to give a faded look */}
-      {dataFetchedSuccessfully && customersDataFetchedSuccessfully && (
+      {dataFetchedSuccessfully &&
+      customersDataFetchedSuccessfully &&
+      suppliersDataFetchedSuccessfully ? (
         <>
           <Box sx={{ width: "96%", marginTop: "20px", marginLeft: "5px" }}>
             <Grid
@@ -220,7 +246,7 @@ function DashboardComp() {
               </Grid>
             </Grid>
           </Box>
-          <div className='flex-wrap flex gap-4 justify-between mt-8 md:mr-12 mr-7'>
+          <div className='flex-wrap flex gap-4 justify-between mt-8 md:mr-12 md:ml-4 mr-7'>
             {/* 1st box */}
             <div className='bg-gray-100 flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
               <div className='flex justify-between'>
@@ -278,8 +304,104 @@ function DashboardComp() {
                 <div className='text-gray-500'>Last month</div>
               </div>
             </div>
+            {/* data */}
+
+            <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
+              <div className='bg-gray-200 flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
+                <div className='flex justify-between  p-3 text-sm font-semibold'>
+                  <h1 className='text-center p-2'>Recent customers</h1>
+                  <Button outline gradientDuoTone='purpleToPink'>
+                    <Link to={"/dashboard?tab=view-customers"}>See all</Link>
+                  </Button>
+                </div>
+                <Table hoverable>
+                  <Table.Head>
+                    <Table.HeadCell>Customer Name</Table.HeadCell>
+                    <Table.HeadCell>Email</Table.HeadCell>
+                  </Table.Head>
+                  {customers &&
+                    customers.customers.map((customer) => (
+                      <Table.Body key={customer._id} className='divide-y'>
+                        <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                          <Table.Cell>{customer.name}</Table.Cell>
+                          <Table.Cell>{customer.email}</Table.Cell>
+                        </Table.Row>
+                      </Table.Body>
+                    ))}
+                </Table>
+              </div>
+              <div className='bg-gray-200 flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
+                <div className='flex justify-between  p-3 text-sm font-semibold'>
+                  <h1 className='text-center p-2'>Recent suppliers</h1>
+                  <Button outline gradientDuoTone='purpleToPink'>
+                    <Link to={"/dashboard?tab=view-suppliers"}>See all</Link>
+                  </Button>
+                </div>
+                <Table hoverable>
+                  <Table.Head>
+                    <Table.HeadCell>Supplier Name</Table.HeadCell>
+                    <Table.HeadCell>Email</Table.HeadCell>
+                    <Table.HeadCell>Signature</Table.HeadCell>
+                  </Table.Head>
+                  {suppliers &&
+                    suppliers.suppliers.map((supplier) => (
+                      <Table.Body key={supplier._id} className='divide-y'>
+                        <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                          <Table.Cell>{supplier.name}</Table.Cell>
+                          <Table.Cell>{supplier.email}</Table.Cell>
+                          <Table.Cell>
+                            <img
+                              alt={supplier.name}
+                              src={supplier.signature}
+                              className='h-7 w-32'
+                            />
+                          </Table.Cell>
+                        </Table.Row>
+                      </Table.Body>
+                    ))}
+                </Table>
+              </div>
+              <div className='hidden md:block'>
+                <div className='bg-gray-200 flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800 '>
+                  <div className='flex justify-between  p-3 text-sm font-semibold'>
+                    <h1 className='text-center p-2'>Recent Invoices Details</h1>
+                    <Button outline gradientDuoTone='purpleToPink'>
+                      <Link to={"/dashboard?tab=books"}>See all</Link>
+                    </Button>
+                  </div>
+                  <Table hoverable>
+                    <Table.Head>
+                      <Table.HeadCell>Invoice Id</Table.HeadCell>
+                      <Table.HeadCell>Customer Name</Table.HeadCell>
+                      <Table.HeadCell>Supplier Name</Table.HeadCell>
+                      <Table.HeadCell>place Of Supply</Table.HeadCell>
+                      <Table.HeadCell>place Of Delivery</Table.HeadCell>
+                      <Table.HeadCell>Order Amount</Table.HeadCell>
+                    </Table.Head>
+                    {invoiceData &&
+                      invoiceData.invoices.map((invoice) => (
+                        <Table.Body key={invoice._id} className='divide-y'>
+                          <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                            <Table.Cell>{invoice._id}</Table.Cell>
+                            <Table.Cell>{invoice.customer.name}</Table.Cell>
+                            <Table.Cell>{invoice.supplier.name}</Table.Cell>
+                            <Table.Cell>{invoice.placeOfSupply}</Table.Cell>
+                            <Table.Cell>{invoice.placeOfDelivery}</Table.Cell>
+                            <Table.Cell>{invoice.totalAmount}</Table.Cell>
+                          </Table.Row>
+                        </Table.Body>
+                      ))}
+                  </Table>
+                </div>
+              </div>
+            </div>
           </div>
         </>
+      ) : (
+        <div className='flex justify-center items-center gap-4 h-screen'>
+          <CustomizedProgressBars />
+          <span className='text-2xl'>Loading....</span>
+        </div>
       )}
     </div>
   );
