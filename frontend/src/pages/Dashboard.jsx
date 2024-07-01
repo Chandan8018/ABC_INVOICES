@@ -8,6 +8,7 @@ import CreateCustomer from "./CreateCustomer";
 import Invoice from "../components/invoices/Invoice";
 import ViewSuppliers from "./ViewSuppliers";
 import CreateSupplier from "./CreateSupplier";
+import AllInvoices from "./AllInvoices";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -32,6 +33,7 @@ export default function Dashboard() {
         {tab === "view-suppliers" && <ViewSuppliers />}
         {tab === "profile" && <Profile />}
         {tab === "invoice" && <Invoice />}
+        {tab === "all-invoices" && <AllInvoices />}
       </div>
     </>
   );

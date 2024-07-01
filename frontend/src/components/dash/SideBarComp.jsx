@@ -22,6 +22,7 @@ function SideBarComp() {
     ViewcustomersIcon,
     InvoiceIcon,
     SupplierIcon,
+    AllInvoicesIcon,
   } = SidebarIcons();
 
   const handleClose = () => setIsOpen(false);
@@ -139,6 +140,17 @@ function SideBarComp() {
                           as='div'
                         >
                           Invoice
+                        </Sidebar.Item>
+                      </Link>
+
+                      <Link to='/dashboard?tab=all-invoices'>
+                        <Sidebar.Item
+                          active={tab === "all-invoices"}
+                          icon={AllInvoicesIcon}
+                          className='cursor-pointer  hover:bg-[#ff5555] hover:dark:bg-[#0345fc] hover:text-white hover:text-md hover:opacity-85 rounded-lg w-48 mb-4'
+                          as='div'
+                        >
+                          All Invoices
                         </Sidebar.Item>
                       </Link>
 

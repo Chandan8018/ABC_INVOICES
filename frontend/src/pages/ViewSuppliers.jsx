@@ -29,12 +29,8 @@ function ViewSuppliers() {
         const res = await fetch(`/api/supplier/getSuppliers`);
         const data = await res.json();
         if (res.ok) {
-          console.log(data);
-          const modifiedData = data.suppliers.filter(
-            (supplier) => currentUser._id === supplier.userId
-          );
-          setSuppliers(modifiedData);
-          if (modifiedData.length < 9) {
+          setSuppliers(data.suppliers);
+          if (data.suppliers.length < 9) {
             setShowMore(false);
           }
         }
@@ -56,7 +52,7 @@ function ViewSuppliers() {
       const data = await res.json();
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.suppliers]);
-        if (suppliers.length < 9) {
+        if (data.suppliers.length < 9) {
           setShowMore(false);
         }
       }

@@ -63,6 +63,7 @@ function Invoice() {
       setFormData({
         items: invoiceData.items,
         customer: {
+          customerId: customerDetails[0]._id,
           name: customerDetails[0].name,
           email: customerDetails[0].email,
           phone: customerDetails[0].phone,
@@ -71,6 +72,7 @@ function Invoice() {
           country: customerDetails[0].country,
         },
         supplier: {
+          supplierId: supplierDetails[0]._id,
           name: supplierDetails[0].name,
           email: supplierDetails[0].email,
           phone: supplierDetails[0].phone,

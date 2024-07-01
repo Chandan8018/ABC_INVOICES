@@ -33,12 +33,10 @@ function ViewCustomers() {
         const res = await fetch(`/api/customer/getCustomers`);
         const data = await res.json();
         if (res.ok) {
-          const modifiedData = data.customers.filter(
-            (customer) => currentUser._id === customer.userId
-          );
-          setCustomers(modifiedData);
+          console.log(data);
+          setCustomers(data.customers);
           setFetchCustomersSuccess(false);
-          if (modifiedData.length < 9) {
+          if (data.customers.length < 9) {
             setShowMore(false);
           }
         }
@@ -59,8 +57,8 @@ function ViewCustomers() {
       );
       const data = await res.json();
       if (res.ok) {
-        setUserPosts((prev) => [...prev, ...data.customers]);
-        if (customers.length < 9) {
+        setCustomers((prev) => [...prev, ...data.customers]);
+        if (data.customers.length < 9) {
           setShowMore(false);
         }
       }
@@ -69,7 +67,7 @@ function ViewCustomers() {
     }
   };
 
-  const handleDeleteQize = async () => {
+  const handleDeleteCustomer = async () => {
     setShowModal(false);
     try {
       const res = await fetch(
@@ -104,97 +102,91 @@ function ViewCustomers() {
             <TypewriterEffectSmooth words={View} />
           </div>
 
-          {currentUser && customers.length > 0 ? (
-            fetchCustomersSuccess ? (
-              <div className='flex justify-center items-center gap-4 h-screen'>
-                <CustomizedProgressBars />
-                <span className='text-2xl'>Loading....</span>
-              </div>
-            ) : (
-              <>
-                <Table hoverable className='shadow-md'>
-                  <Table.Head>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Sl no
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Name
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Phone No.
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Email
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Address
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      State
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Country
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Delete
-                    </Table.HeadCell>
-                    <Table.HeadCell className='bg-[#abb1bb]'>
-                      Edit
-                    </Table.HeadCell>
-                  </Table.Head>
-                  {customers.map((customer, index) => (
-                    <>
-                      <Table.Body className='divide-y' key={customer._id}>
-                        <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800 '>
-                          <Table.Cell>{index + 100}</Table.Cell>
-                          <Table.Cell>{customer.name}</Table.Cell>
-                          <Table.Cell>{customer.phone}</Table.Cell>
-                          <Table.Cell>{customer.email}</Table.Cell>
-                          <Table.Cell>{customer.address}</Table.Cell>
-                          <Table.Cell>{customer.state}</Table.Cell>
-                          <Table.Cell>{customer.country}</Table.Cell>
-                          <Table.Cell>
+          {fetchCustomersSuccess ? (
+            <div className='flex justify-center items-center gap-4 h-screen'>
+              <CustomizedProgressBars />
+              <span className='text-2xl'>Loading....</span>
+            </div>
+          ) : currentUser && customers.length > 0 ? (
+            <>
+              <Table hoverable className='shadow-md'>
+                <Table.Head>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    Sl no
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>Name</Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    Phone No.
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    Email
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    Address
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    State
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    Country
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>
+                    Delete
+                  </Table.HeadCell>
+                  <Table.HeadCell className='bg-[#abb1bb]'>Edit</Table.HeadCell>
+                </Table.Head>
+                {customers.map((customer, index) => (
+                  <>
+                    <Table.Body className='divide-y' key={customer._id}>
+                      <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800 '>
+                        <Table.Cell>{index + 100}</Table.Cell>
+                        <Table.Cell>{customer.name}</Table.Cell>
+                        <Table.Cell>{customer.phone}</Table.Cell>
+                        <Table.Cell>{customer.email}</Table.Cell>
+                        <Table.Cell>{customer.address}</Table.Cell>
+                        <Table.Cell>{customer.state}</Table.Cell>
+                        <Table.Cell>{customer.country}</Table.Cell>
+                        <Table.Cell>
+                          <Button
+                            borderRadius='1.75rem'
+                            className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 cursor-pointer'
+                            type='button'
+                            onClick={() => {
+                              setShowModal(true);
+                              setCustomerIdToDelete(customer._id);
+                            }}
+                          >
+                            <MdDelete className='w-7 h-7 text-[#ff5555]' />
+                          </Button>
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Link
+                            to={`/update-customer/${customer._id}`}
+                            className='text-teal-500'
+                          >
                             <Button
                               borderRadius='1.75rem'
-                              className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 cursor-pointer'
+                              className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 w-8 cursor-pointer'
                               type='button'
-                              onClick={() => {
-                                setShowModal(true);
-                                setCustomerIdToDelete(customer._id);
-                              }}
                             >
-                              <MdDelete className='w-7 h-7 text-[#ff5555]' />
+                              <FaEdit className='w-6 h-6 text-blue-500' />
                             </Button>
-                          </Table.Cell>
-                          <Table.Cell>
-                            <Link
-                              to={`/update-customer/${customer._id}`}
-                              className='text-teal-500'
-                            >
-                              <Button
-                                borderRadius='1.75rem'
-                                className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 w-8 cursor-pointer'
-                                type='button'
-                              >
-                                <FaEdit className='w-6 h-6 text-blue-500' />
-                              </Button>
-                            </Link>
-                          </Table.Cell>
-                        </Table.Row>
-                      </Table.Body>
-                    </>
-                  ))}
-                </Table>
-                {showMore && (
-                  <button
-                    onClick={handleShowMore}
-                    className='w-full text-black dark:text-teal-500 font-bold self-center text-sm py-7 hover:text-blue-600'
-                  >
-                    Show more
-                  </button>
-                )}
-              </>
-            )
+                          </Link>
+                        </Table.Cell>
+                      </Table.Row>
+                    </Table.Body>
+                  </>
+                ))}
+              </Table>
+              {showMore && (
+                <button
+                  onClick={handleShowMore}
+                  className='w-full text-black dark:text-teal-500 font-bold self-center text-sm py-7 hover:text-blue-600'
+                >
+                  Show more
+                </button>
+              )}
+            </>
           ) : (
             <div className='flex flex-col items-center gap-10 mt-10'>
               <h1 className='text-5xl font-bold'>No Customers Found</h1>
@@ -220,7 +212,7 @@ function ViewCustomers() {
                   <Button
                     borderRadius='4px'
                     className='bg-red-500 text-white border-slate-800 h-10 rounded-[3px]'
-                    onClick={handleDeleteQize}
+                    onClick={handleDeleteCustomer}
                   >
                     Yes, I'm sure
                   </Button>

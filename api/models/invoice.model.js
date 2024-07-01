@@ -38,9 +38,12 @@ const invoiceSchema = mongoose.Schema(
     ],
 
     customer: {
-      name: {
+      customerId: {
         type: String,
         required: true,
+      },
+      name: {
+        type: String,
       },
       email: {
         type: String,
@@ -50,11 +53,9 @@ const invoiceSchema = mongoose.Schema(
       },
       address: {
         type: String,
-        required: true,
       },
       state: {
         type: String,
-        required: true,
       },
       country: {
         type: String,
@@ -63,9 +64,12 @@ const invoiceSchema = mongoose.Schema(
     },
 
     supplier: {
-      name: {
+      supplierId: {
         type: String,
         required: true,
+      },
+      name: {
+        type: String,
       },
       email: {
         type: String,
@@ -98,7 +102,6 @@ const invoiceSchema = mongoose.Schema(
     },
     totalAmount: {
       type: Number,
-      required: true,
     },
     amountInWords: {
       type: String,

@@ -182,6 +182,9 @@ Accessible only to authenticated users, the Dashboard displays user-specific inf
 - Invoice Generation Page
 ![AfterInvoice](./frontend/public/invoice2.png)
 ---
+- Dashboard Page
+![Dashboard Page](./frontend/public/dashboard.png)
+---
 - Home Page
 ![Home Page](./frontend/public/home.png)
 ---

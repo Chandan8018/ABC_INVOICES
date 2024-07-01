@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { Button } from "../ui/moving-border";
 import { FaUsers, FaFileInvoice } from "react-icons/fa";
 import { SiHomeassistantcommunitystore } from "react-icons/si";
+import { IoDocumentsOutline } from "react-icons/io5";
 
 const SidebarIcons = () => {
   const [tab, setTab] = useState("");
@@ -84,12 +85,27 @@ const SidebarIcons = () => {
       <SiHomeassistantcommunitystore className='w-5 h-5' />
     );
 
+  const AllInvoicesIcon = () =>
+    tab === "all-invoices" ? (
+      <div className=''>
+        <Button
+          borderRadius='1.75rem'
+          className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 w-8'
+        >
+          <IoDocumentsOutline className='w-5 h-5 text-[#46C5F0]' />
+        </Button>
+      </div>
+    ) : (
+      <IoDocumentsOutline className='w-5 h-5' />
+    );
+
   return {
     DashboardIcon,
     ProfileIcon,
     ViewcustomersIcon,
     InvoiceIcon,
     SupplierIcon,
+    AllInvoicesIcon,
   };
 };
 

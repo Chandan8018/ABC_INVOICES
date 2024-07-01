@@ -387,7 +387,9 @@ function DashboardComp() {
                             <Table.Cell>{invoice.supplier.name}</Table.Cell>
                             <Table.Cell>{invoice.placeOfSupply}</Table.Cell>
                             <Table.Cell>{invoice.placeOfDelivery}</Table.Cell>
-                            <Table.Cell>{invoice.totalAmount}</Table.Cell>
+                            <Table.Cell>{`${Math.ceil(
+                              invoice.totalAmount
+                            )} INR`}</Table.Cell>
                           </Table.Row>
                         </Table.Body>
                       ))}
