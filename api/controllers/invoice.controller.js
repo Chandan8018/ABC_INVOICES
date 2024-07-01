@@ -27,11 +27,7 @@ export const getInvoices = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
-    const totalInvoices = await Invoice.countDocuments();
-    res.status(200).json({
-      invoices,
-      totalInvoices,
-    });
+    res.status(200).json(invoices);
   } catch (error) {
     next(error);
   }
