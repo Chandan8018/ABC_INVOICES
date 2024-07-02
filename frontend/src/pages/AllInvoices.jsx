@@ -7,8 +7,9 @@ import { Button } from "../components/ui/moving-border";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { View } from "../data/data";
+import { ViewInvoiceTyping } from "../data/data";
 import { MdDelete } from "react-icons/md";
+import { BiWindows } from "react-icons/bi";
 
 function AllInvoices() {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ function AllInvoices() {
 
       <div className='table-auto overflow-x-scroll md:mx-auto scrollbar scrollbar-track-slate-700 scrollbar-thumb-black dark:scrollbar-track-slate-400 dark:scrollbar-thumb-white mb-5'>
         <div className='flex justify-center'>
-          <TypewriterEffectSmooth words={View} />
+          <TypewriterEffectSmooth words={ViewInvoiceTyping} />
         </div>
 
         {fetchInvoicesSuccess ? (
@@ -104,6 +105,7 @@ function AllInvoices() {
           <>
             <Table hoverable className='shadow-md'>
               <Table.Head>
+                <Table.HeadCell className='bg-[#abb1bb]'>View</Table.HeadCell>
                 <Table.HeadCell className='bg-[#abb1bb]'>
                   Invoice No
                 </Table.HeadCell>
@@ -140,6 +142,18 @@ function AllInvoices() {
                 <>
                   <Table.Body className='divide-y' key={invoice._id}>
                     <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800 '>
+                      <Table.Cell>
+                        <Button
+                          borderRadius='1.75rem'
+                          className='bg-transparent text-black dark:text-white border-neutral-200 dark:border-slate-800 h-8 cursor-pointer'
+                          type='button'
+                          onClick={() => {
+                            navigate(`/invoice/${invoice.orderNumber}`);
+                          }}
+                        >
+                          <BiWindows className='w-7 h-7 text-[#191515] dark:text-pink-200' />
+                        </Button>
+                      </Table.Cell>
                       <Table.Cell>{invoice._id}</Table.Cell>
                       <Table.Cell>{invoice.orderNumber}</Table.Cell>
                       <Table.Cell>
@@ -155,7 +169,9 @@ function AllInvoices() {
                       </Table.Cell>
                       <Table.Cell>{invoice.placeOfSupply}</Table.Cell>
                       <Table.Cell>{invoice.placeOfDelivery}</Table.Cell>
-                      <Table.Cell>{invoice.totalAmount}</Table.Cell>
+                      <Table.Cell>{`₹ ${Math.round(
+                        invoice.totalAmount
+                      )}`}</Table.Cell>
                       <Table.Cell>
                         <Button
                           borderRadius='1.75rem'

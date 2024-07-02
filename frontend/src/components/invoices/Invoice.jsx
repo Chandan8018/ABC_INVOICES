@@ -57,7 +57,6 @@ function Invoice() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [formData, setFormData] = useState({});
   const [showModal, setShowModal] = useState(false);
-
   const handleAssignData = () => {
     if (supplierFound && customerFound) {
       setFormData({
@@ -119,10 +118,9 @@ function Invoice() {
       }
 
       if (res.ok) {
-        console.log("Chandan");
         setErrorMessage(null);
         setShowModal(false);
-        navigate("/dashboard?tab=view-customers");
+        navigate(`/invoice/${orderNumber}`);
       }
     } catch (error) {
       setShowModal(false);
@@ -132,8 +130,6 @@ function Invoice() {
 
   useEffect(() => {
     if (supplierFound && customerFound) {
-      setPlaceOfSupply(supplierDetails[0].state);
-      setPlaceOfDelivery(customerDetails[0].state);
       setOrderNumber(generateAlphaNumericCode());
     }
   }, [supplierFound, customerFound]);
@@ -160,6 +156,7 @@ function Invoice() {
         const res = await fetch(`/api/customer/getCustomers`);
         const data = await res.json();
         if (res.ok) {
+          console.log(data);
           setCustomersName(
             data.customers
               .filter((customer) => currentUser._id === customer.userId)
@@ -185,6 +182,7 @@ function Invoice() {
         const data = await res.json();
         if (res.ok) {
           setSupplierDetails(data.suppliers);
+          setPlaceOfSupply(data.suppliers[0].state);
           setSupplierFetched(false);
         } else {
           setSupplierFound(false);
@@ -208,13 +206,14 @@ function Invoice() {
         const data = await res.json();
         if (res.ok) {
           setCustomerDetails(data.customers);
+          setPlaceOfDelivery(data.customers[0].state);
           setCustomerFetched(false);
         } else {
           setCustomerFound(false);
           setCustomerDetails([]);
         }
       } catch (error) {
-        setSupplierFound(false);
+        setCustomerFound(false);
         console.log(error.message);
       }
     };

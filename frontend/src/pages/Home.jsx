@@ -6,6 +6,7 @@ import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MacbookScroll } from "../components/ui/macbook-scroll";
+import invoice from "../../public/invoice2.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Home() {
               <Badge className='h-10 w-10 transform -rotate-12' />
             </Link>
           }
-          src={`https://themunim.com/wp-content/uploads/2023/11/30-11-Thu-Blog-Everything-You-Need-to-Know-About-Export-Invoices_-.png`}
+          src={invoice}
           showGradient={false}
         />
       </div>

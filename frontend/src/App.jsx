@@ -10,6 +10,8 @@ import SideBarComp from "./components/dash/SideBarComp";
 import Dashboard from "./pages/Dashboard";
 import UpdateCustomer from "./pages/UpdateCustomer";
 import UpdateSupplier from "./pages/UpdateSupplier";
+import ViewInvoice from "./pages/ViewInvoice";
+
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +34,7 @@ function App() {
             path='/update-supplier/:supplierId'
             element={<UpdateSupplier />}
           />
+          <Route path='/invoice/:orderNumber' element={<ViewInvoice />} />
         </Route>
       </Routes>
       <FooterComp />

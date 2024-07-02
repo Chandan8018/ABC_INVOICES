@@ -20,7 +20,10 @@ import { ToWords } from "to-words";
 const toWords = new ToWords();
 
 const calculateNetAmount = (row) => {
-  return row.unitPrice * row.quantity - row.discount;
+  return (
+    row.unitPrice * row.quantity -
+    (row.unitPrice * row.quantity * row.discount) / 100
+  );
 };
 
 const calculateTaxType = (row, placeOfSupply, placeOfDelivery) => {

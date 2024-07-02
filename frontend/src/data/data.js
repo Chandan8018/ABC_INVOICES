@@ -104,6 +104,21 @@ export const NoSupplier = [
   },
 ];
 
+export const ViewInvoiceTyping = [
+  {
+    text: "Preview",
+  },
+  {
+    text: "All",
+  },
+  {
+    text: "Invoice",
+  },
+  {
+    text: "Details.",
+    className: "text-blue-500 dark:text-blue-500",
+  },
+];
 export const home = [
   {
     text: "Get Started.",

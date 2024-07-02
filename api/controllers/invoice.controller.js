@@ -22,6 +22,7 @@ export const getInvoices = async (req, res, next) => {
     const getData = await Invoice.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.invoiceId && { _id: req.query.invoiceId }),
+      ...(req.query.orderNumber && { orderNumber: req.query.orderNumber }),
     })
       .sort({ updateAt: sortDirection })
       .skip(startIndex)
