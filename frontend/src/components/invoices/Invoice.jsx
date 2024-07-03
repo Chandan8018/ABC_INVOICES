@@ -20,6 +20,7 @@ import InvoiceDocument from "./InvoiceDocument "; // Assuming you create Invoice
 import { Button } from "../ui/moving-border";
 import { Alert, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Spotlight } from "../ui/Spotlight";
 
 function generateAlphaNumericCode() {
   let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -32,7 +33,7 @@ function generateAlphaNumericCode() {
     let randomIndex = Math.floor(Math.random() * 10) + 26;
     code += characters[randomIndex];
   }
-  return code;
+  return `ORD/${new Date().getFullYear()}/${code}`;
 }
 
 function Invoice() {
@@ -223,6 +224,10 @@ function Invoice() {
 
   return (
     <div className='mx-auto p-4 md:p-10 overflow-x-auto scrollbar scrollbar-track-slate-700 scrollbar-thumb-black dark:scrollbar-track-slate-400 dark:scrollbar-thumb-white'>
+      <Spotlight
+        className='-top-40 md:left-60 md:-top-20 z-50'
+        fill={theme === "dark" ? "white" : "#13C6F7"}
+      />
       <BackgroundGradient className='rounded-[8px] min-h-screen w-full md:w-5xl p-4 sm:p-10 bg-white dark:bg-zinc-900'>
         <div className='flex flex-col md:flex-row justify-between'>
           <span className='flex justify-start items-center whitespace-nowrap text-lg md:text-xl font-semibold dark:text-white pl-7'>

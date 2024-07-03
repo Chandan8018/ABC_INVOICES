@@ -6,7 +6,8 @@ import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MacbookScroll } from "../components/ui/macbook-scroll";
-import invoice from "../../public/invoice2.png";
+import invoice from "../assets/Abc-Invoice.png";
+import whiteinvoice from "../assets/white-Invoice.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Home() {
               <Badge className='h-10 w-10 transform -rotate-12' />
             </Link>
           }
-          src={invoice}
+          src={theme === "dark" ? whiteinvoice : invoice}
           showGradient={false}
         />
       </div>

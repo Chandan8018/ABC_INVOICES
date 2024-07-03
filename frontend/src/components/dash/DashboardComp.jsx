@@ -15,6 +15,7 @@ import { FaRupeeSign, FaShoppingCart } from "react-icons/fa";
 import CustomizedProgressBars from "../spinner/CustomizedProgressBars";
 import { Button, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { Spotlight } from "../ui/Spotlight";
 
 function DashboardComp() {
   const { currentUser } = useSelector((state) => state.user);
@@ -123,6 +124,10 @@ function DashboardComp() {
 
   return (
     <div className='min-h-screen w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative '>
+      <Spotlight
+        className='-top-40 left-0 md:left-60 md:-top-20 z-10'
+        fill={theme === "dark" ? "white" : "#13C6F7"}
+      />
       {/* Radial gradient for the container to give a faded look */}
       {dataFetchedSuccessfully &&
       customersDataFetchedSuccessfully &&
@@ -366,7 +371,7 @@ function DashboardComp() {
                   <div className='flex justify-between  p-3 text-sm font-semibold'>
                     <h1 className='text-center p-2'>Recent Invoices Details</h1>
                     <Button outline gradientDuoTone='purpleToPink'>
-                      <Link to={"/dashboard?tab=books"}>See all</Link>
+                      <Link to={"/dashboard?tab=all-invoices"}>See all</Link>
                     </Button>
                   </div>
                   <Table hoverable>
