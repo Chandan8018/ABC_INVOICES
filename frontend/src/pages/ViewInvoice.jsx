@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Alert, Table } from "flowbite-react";
 import CustomizedProgressBars from "../components/spinner/CustomizedProgressBars";
-
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InvoicePdf from "./InvoicePdf";
 function ViewInvoice() {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
@@ -260,6 +261,16 @@ function ViewInvoice() {
                 {errorMessage}
               </Alert>
             )}
+            <div>
+              <PDFDownloadLink
+                document={<InvoicePdf orderNumber={orderNumber} />}
+                fileName='invoice.pdf'
+              >
+                {({ loading }) =>
+                  loading ? "Loading document..." : "Download PDF"
+                }
+              </PDFDownloadLink>
+            </div>
           </BackgroundGradient>
         )
       )}

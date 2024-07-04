@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import UpdateCustomer from "./pages/UpdateCustomer";
 import UpdateSupplier from "./pages/UpdateSupplier";
 import ViewInvoice from "./pages/ViewInvoice";
+import InvoicePdf from "./pages/InvoicePdf";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             element={<UpdateSupplier />}
           />
           <Route path='/invoice/:orderNumber' element={<ViewInvoice />} />
+          <Route path='/invoice/pdf/:invoiceId' element={<InvoicePdf />} />
         </Route>
       </Routes>
       <FooterComp />

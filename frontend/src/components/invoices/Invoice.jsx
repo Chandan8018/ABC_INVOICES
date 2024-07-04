@@ -15,8 +15,6 @@ import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import InvoiceDocument from "./InvoiceDocument "; // Assuming you create InvoiceDocument.js for PDF structure
 import { Button } from "../ui/moving-border";
 import { Alert, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -526,23 +524,6 @@ function Invoice() {
             >
               Save Invoice
             </Button>
-          </div>
-          <div className='flex justify-end mt-4'>
-            <PDFDownloadLink
-              document={
-                supplierFound &&
-                customerFound && (
-                  <InvoiceDocument
-                    invoiceData={{ supplierDetails, customerDetails }}
-                  />
-                )
-              }
-              fileName='invoice.pdf'
-            >
-              {({ blob, url, loading, error }) =>
-                loading ? "Loading document..." : "Download PDF"
-              }
-            </PDFDownloadLink>
           </div>
         </div>
         <Modal

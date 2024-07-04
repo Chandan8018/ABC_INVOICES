@@ -8,7 +8,7 @@ import ThemeProvider from "./components/theme/ThemeProvider";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <PersistGate persistor={persistor}>
+  <PersistGate loading={null} persistor={persistor}>
     <Provider store={store}>
       <ThemeProvider>
         <React.StrictMode>
