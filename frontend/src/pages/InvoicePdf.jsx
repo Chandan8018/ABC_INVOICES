@@ -12,42 +12,158 @@ const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontSize: 12,
+    fontFamily: "Helvetica",
     lineHeight: 1.5,
-    flexDirection: "column",
+  },
+  title: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
   },
   section: {
-    marginBottom: 10,
+    marginBottom: 2,
   },
   header: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  text: {
+    marginBottom: 4,
+    fontSize: 8,
+  },
+  bold: {
+    fontWeight: "bold",
   },
   table: {
     display: "table",
     width: "auto",
     borderStyle: "solid",
+    borderColor: "#bfbfbf",
     borderWidth: 1,
     borderRightWidth: 0,
     borderBottomWidth: 0,
+    marginTop: 4,
   },
   tableRow: {
     flexDirection: "row",
   },
-  tableCol: {
-    width: "12.5%",
+  tableColHeader: {
+    width: "11%",
     borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderBottomColor: "#000",
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
+    backgroundColor: "#e0e0e0",
+    textAlign: "center",
     padding: 5,
-  },
-  tableCell: {
-    margin: "auto",
     fontSize: 10,
   },
+  tableCol: {
+    width: "11%",
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+    textAlign: "center",
+    padding: 5,
+    fontSize: 10,
+  },
+  signatureSection: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    paddingRight: 10,
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+    borderWidth: 1,
+    borderTopWidth: 0,
+  },
+  signatureImage: {
+    width: 120, // equivalent to w-48 (48 * 4px)
+    height: 30, // equivalent to h-10 (10 * 4px)
+    borderWidth: 1, // equivalent to border-[2px]
+    borderStyle: "solid",
+    borderColor: "#bfbfbf",
+  },
+  signatureText: {
+    marginTop: 10,
+    fontSize: 12,
+  },
+  mainSection: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  invoiceHeaderContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    whiteSpace: "nowrap",
+    fontSize: 14, // equivalent to text-lg
+    paddingLeft: 28, // equivalent to pl-7
+    fontWeight: "semibold",
+    color: "black",
+  },
+  invoiceHeaderContainerMd: {
+    "@media (min-width: 768px)": {
+      fontSize: 20, // equivalent to md:text-xl
+    },
+  },
+  abcBox: {
+    backgroundColor: "#3b82f6", // bg-blue-500
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    paddingTop: 6,
+    paddingHorizontal: 4, // equivalent to px-1
+    fontWeight: "bold",
+    fontSize: 14, // equivalent to text-lg
+  },
+  abcBoxMd: {
+    "@media (min-width: 768px)": {
+      fontSize: 20, // equivalent to md:text-xl
+    },
+  },
+  invoiceBox: {
+    backgroundColor: "#ff5555",
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    paddingTop: 6,
+    paddingHorizontal: 4, // equivalent to px-1
+    fontWeight: "bold",
+    fontSize: 14, // equivalent to text-lg
+  },
+  invoiceBoxMd: {
+    "@media (min-width: 768px)": {
+      fontSize: 20, // equivalent to md:text-xl
+    },
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+  },
+  heading: {
+    fontSize: 14, // equivalent to text-lg
+    color: "black",
+  },
+  headingMd: {
+    "@media (min-width: 768px)": {
+      fontSize: 24, // equivalent to md:text-2xl
+    },
+  },
+  subheading: {
+    fontSize: 12, // equivalent to text-base or h4 in Tailwind
+  },
 });
+
 function InvoicePdf({ orderNumber }) {
   const [invoiceData, setInvoiceData] = useState({});
   const [invoiceFound, setInvoiceFound] = useState(false);
@@ -61,6 +177,7 @@ function InvoicePdf({ orderNumber }) {
         const data = await res.json();
         if (res.ok) {
           setInvoiceData(data.invoices[0]);
+          console.log(data.invoices[0].supplier.signature);
           setInvoiceFound(true);
         }
       } catch (error) {
@@ -72,104 +189,281 @@ function InvoicePdf({ orderNumber }) {
   }, [orderNumber]);
 
   return (
-    <Document>
-      <Page style={styles.page}>
-        {invoiceFound && (
-          <>
-            <View style={styles.header}>
-              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                ABC INVOICE
-              </Text>
-              <Text style={{ textAlign: "right" }}>
-                Tax Invoice/Bill of Supply/Case Memo (Original for Recipient)
+    invoiceFound && (
+      <Document>
+        <Page size='A4' style={styles.page}>
+          <View style={styles.title}>
+            <Text>Invoice</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingBottom: 4,
+              borderStyle: "solid",
+              borderColor: "#bfbfbf",
+              borderBottomWidth: 1,
+              marginBottom: 10,
+            }}
+          >
+            <View
+              style={[
+                styles.invoiceHeaderContainer,
+                styles.invoiceHeaderContainerMd,
+              ]}
+            >
+              <Text style={[styles.abcBox, styles.abcBoxMd]}>ABC</Text>
+              <Text style={[styles.invoiceBox, styles.invoiceBoxMd]}>
+                INVOICE
               </Text>
             </View>
+            <View style={styles.container}>
+              <Text style={[styles.heading, styles.headingMd]}>
+                Tax Invoice/Bill of Supply/Case Memo
+              </Text>
+              <Text style={styles.subheading}>(Original for Recipient)</Text>
+            </View>
+          </View>
+          <View style={styles.mainSection}>
             <View style={styles.section}>
-              <Text>Sold By:</Text>
-              <Text>{invoiceData.supplier?.name}</Text>
-              <Text>{invoiceData.supplier?.address}</Text>
-              <Text>
-                {invoiceData.supplier?.state} {invoiceData.supplier?.country}
+              <Text style={styles.header}>Sold By:</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 9 }}>
+                {invoiceData.supplier.name}
               </Text>
-              <Text>PAN No: {invoiceData.supplier?.PAN}</Text>
-              <Text>GST Regd. No: {invoiceData.supplier?.GST}</Text>
-            </View>
-            <View style={styles.section}>
-              <Text style={{ textAlign: "right" }}>Billing Address:</Text>
-              <Text style={{ textAlign: "right" }}>
-                {invoiceData.customer?.name}
+              <Text style={styles.text}>{invoiceData.supplier.address}</Text>
+              <Text style={styles.text}>
+                {invoiceData.supplier.state}, {invoiceData.supplier.country}
               </Text>
-              <Text style={{ textAlign: "right" }}>
-                {invoiceData.customer?.address}
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 9 }}>PAN No:</Text>{" "}
+                {invoiceData.supplier.PAN}
               </Text>
-              <Text style={{ textAlign: "right" }}>
-                {invoiceData.customer?.state} {invoiceData.customer?.country}
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 9 }}>
+                  GST Regd. No:
+                </Text>{" "}
+                {invoiceData.supplier.GST}
               </Text>
             </View>
-            <View style={styles.section}>
-              <Text>Order Number: {invoiceData.orderNumber}</Text>
-              <Text>
-                Order Date:{" "}
-                {new Date(invoiceData.createdAt).toLocaleDateString()}
-              </Text>
-            </View>
-            <View style={styles.section}>
-              <Text>Place of Supply: {invoiceData.placeOfSupply}</Text>
-              <Text>Place of Delivery: {invoiceData.placeOfDelivery}</Text>
-              <Text>Invoice Number: {invoiceData._id}</Text>
-              <Text>
-                Invoice Date:{" "}
-                {new Date(invoiceData.createdAt).toLocaleDateString()}
-              </Text>
-            </View>
-            <View style={styles.table}>
-              <View style={styles.tableRow}>
-                <Text style={styles.tableCol}>Sl no</Text>
-                <Text style={styles.tableCol}>Description</Text>
-                <Text style={styles.tableCol}>Qty</Text>
-                <Text style={styles.tableCol}>Unit Price(₹)</Text>
-                <Text style={styles.tableCol}>Discount(%)</Text>
-                <Text style={styles.tableCol}>Net Amount(₹)</Text>
-                <Text style={styles.tableCol}>Tax Rate(%)</Text>
-                <Text style={styles.tableCol}>Tax Type</Text>
-                <Text style={styles.tableCol}>Total Amount</Text>
+            <View>
+              <View
+                style={{
+                  marginBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Text style={styles.header}>Billing Address:</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 9 }}>
+                  {invoiceData.customer.name}
+                </Text>
+                <Text style={styles.text}>{invoiceData.customer.address}</Text>
+                <Text style={styles.text}>
+                  {invoiceData.customer.state}, {invoiceData.customer.country}
+                </Text>
               </View>
-              {invoiceData.items?.map((item, index) => (
-                <View style={styles.tableRow} key={item._id}>
-                  <Text style={styles.tableCol}>{index + 1}</Text>
-                  <Text style={styles.tableCol}>{item.description}</Text>
-                  <Text style={styles.tableCol}>{item.quantity}</Text>
-                  <Text style={styles.tableCol}>{item.unitPrice}</Text>
-                  <Text style={styles.tableCol}>{item.discount}</Text>
-                  <Text style={styles.tableCol}>{item.netAmount}</Text>
-                  <Text style={styles.tableCol}>{item.taxRate}</Text>
-                  <Text style={styles.tableCol}>{item.taxType}</Text>
-                  <Text style={styles.tableCol}>
-                    {Math.round(item.totalAmount)}
-                  </Text>
-                </View>
-              ))}
+              <View
+                style={{
+                  marginBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Text style={styles.header}>Shipping Address:</Text>
+                <Text style={{ fontWeight: "bold", fontSize: 9 }}>
+                  {invoiceData.customer.name}
+                </Text>
+                <Text style={styles.text}>{invoiceData.customer.address}</Text>
+                <Text style={styles.text}>
+                  {invoiceData.customer.state}, {invoiceData.customer.country}
+                </Text>
+              </View>
             </View>
-            <View style={styles.section}>
+          </View>
+          <View style={styles.mainSection}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+              }}
+            >
               <Text>
-                Total: {`₹ ${invoiceData.totalAmount?.toFixed(2)}`} /-
+                <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                  Order Number:
+                </Text>{" "}
+                <Text style={{ fontSize: 8 }}>{invoiceData.orderNumber}</Text>
               </Text>
-              <Text>Amount in words: {invoiceData.amountInWords}</Text>
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                  Order Date:
+                </Text>{" "}
+                <Text style={{ fontSize: 8 }}>
+                  {new Date(invoiceData.createdAt).toLocaleDateString()}
+                </Text>
+              </Text>
             </View>
-            <View style={{ textAlign: "right", marginTop: 10 }}>
-              <Text>{invoiceData.supplier?.name}</Text>
-              {invoiceData.supplier?.signature && (
-                <Image
-                  src={invoiceData.supplier.signature}
-                  style={{ width: 100, height: 40 }}
-                />
-              )}
-              <Text>Authorized Signatory</Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                  Place of Supply:
+                </Text>{" "}
+                {invoiceData.placeOfSupply}
+              </Text>
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                  Place of Delivery:
+                </Text>{" "}
+                {invoiceData.placeOfDelivery}
+              </Text>
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                  Invoice Number:
+                </Text>{" "}
+                {invoiceData._id}
+              </Text>
+              <Text style={styles.text}>
+                <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                  Invoice Date:
+                </Text>{" "}
+                {new Date(invoiceData.createdAt).toLocaleDateString()}
+              </Text>
             </View>
-          </>
-        )}
-      </Page>
-    </Document>
+          </View>
+          <Text style={{ fontWeight: "bold", fontSize: 12, marginTop: 4 }}>
+            Order Details:
+          </Text>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <Text style={{ ...styles.tableColHeader, width: "7%" }}>
+                Sl no
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "22%" }}>
+                Description
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "7%" }}>Qty</Text>
+              <Text style={{ ...styles.tableColHeader, width: "10%" }}>
+                Unit Price(Rs.)
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "10%" }}>
+                Discount(%)
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "12%" }}>
+                Net Amount(Rs.)
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "10%" }}>
+                Tax Rate(%)
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "12%" }}>
+                Tax Type
+              </Text>
+              <Text style={{ ...styles.tableColHeader, width: "12%" }}>
+                Total Amount(Rs.)
+              </Text>
+            </View>
+            {invoiceData.items.map((item, index) => (
+              <View style={styles.tableRow} key={item._id}>
+                <Text style={{ ...styles.tableCol, width: "7%" }}>
+                  {index + 1}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "22%" }}>
+                  {item.description}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "7%" }}>
+                  {item.quantity}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "10%" }}>
+                  {item.unitPrice}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "10%" }}>
+                  {item.discount}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "12%" }}>
+                  {item.netAmount}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "10%" }}>
+                  {item.taxRate}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "12%" }}>
+                  {item.taxType}
+                </Text>
+                <Text style={{ ...styles.tableCol, width: "12%" }}>
+                  {item.totalAmount.toFixed(2)}
+                </Text>
+              </View>
+            ))}
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+              borderStyle: "solid",
+              borderColor: "#bfbfbf",
+              borderWidth: 1,
+              borderTopWidth: 0,
+              paddingVertical: 4,
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingHorizontal: 2,
+                paddingTop: 4,
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 10 }}>Total:</Text>
+              <Text
+                style={{ fontSize: 10 }}
+              >{`INR ${invoiceData.totalAmount.toFixed(2)} /-`}</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderStyle: "solid",
+                borderColor: "#bfbfbf",
+                borderTopWidth: 1,
+                paddingTop: 6,
+                paddingHorizontal: 2,
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 10 }}>
+                Amount in words:
+              </Text>{" "}
+              <Text style={{ fontSize: 9 }}>{invoiceData.amountInWords}</Text>
+            </View>
+          </View>
+          <View style={styles.signatureSection}>
+            <Text style={styles.signatureText}>
+              {invoiceData.supplier.name}
+            </Text>
+            <View style={{ height: 30, width: 120 }}>
+              <Image
+                src={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9cWvAUHp74jMgojzlv2LCgIrPYze7-mqnYQ&s"
+                }
+                style={styles.signatureImage}
+              />
+            </View>
+            <Text style={styles.signatureText}>Authorized Signatory</Text>
+          </View>
+        </Page>
+      </Document>
+    )
   );
 }
 

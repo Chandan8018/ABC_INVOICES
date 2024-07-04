@@ -41,6 +41,14 @@ This project involves generating a detailed invoice based on various input param
 Click on link use api- ([API Documentation](https://abc-invoices.onrender.com/api-docs/))
 ![API Documentation](./frontend/public/Swagger-UI.png)
 
+## View PDF
+
+You can [view the PDF here](./frontend/public/invoice.pdf).
+
+## Embedded PDF
+
+<embed src="../frontend/public/invoice.pdf" width="400" height="600" type="application/pdf">
+
 ## Installation
 
 1. **Clone the repository**:
