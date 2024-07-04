@@ -144,13 +144,15 @@ function InvoicePdf({ orderNumber }) {
                   <Text style={styles.tableCol}>{item.netAmount}</Text>
                   <Text style={styles.tableCol}>{item.taxRate}</Text>
                   <Text style={styles.tableCol}>{item.taxType}</Text>
-                  <Text style={styles.tableCol}>{item.totalAmount}</Text>
+                  <Text style={styles.tableCol}>
+                    {Math.round(item.totalAmount)}
+                  </Text>
                 </View>
               ))}
             </View>
             <View style={styles.section}>
               <Text>
-                Total: &#x20b9; {invoiceData.totalAmount?.toFixed(2)} /-
+                Total: {`₹ ${invoiceData.totalAmount?.toFixed(2)}`} /-
               </Text>
               <Text>Amount in words: {invoiceData.amountInWords}</Text>
             </View>

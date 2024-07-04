@@ -346,7 +346,9 @@ function DashboardComp() {
                   <Table.Head>
                     <Table.HeadCell>Supplier Name</Table.HeadCell>
                     <Table.HeadCell>Email</Table.HeadCell>
-                    <Table.HeadCell>Signature</Table.HeadCell>
+                    <Table.HeadCell className='hidden md:block'>
+                      Signature
+                    </Table.HeadCell>
                   </Table.Head>
                   {suppliers &&
                     suppliers.suppliers.map((supplier) => (
@@ -354,7 +356,7 @@ function DashboardComp() {
                         <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                           <Table.Cell>{supplier.name}</Table.Cell>
                           <Table.Cell>{supplier.email}</Table.Cell>
-                          <Table.Cell>
+                          <Table.Cell className='hidden md:block'>
                             <img
                               alt={supplier.name}
                               src={supplier.signature}

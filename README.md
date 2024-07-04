@@ -25,6 +25,7 @@ This project involves generating a detailed invoice based on various input param
 - **Amount in Words**: Convert the total amount to words for easy readability.
 - **Signature and Authorization**: Insert seller's signature image and authorization note.
 - **Company Logo**: Placeholder for including the company logo in the invoice.
+- **pdf Download**: User can download pdf after create invoice.
 - **Responsive Design**: The application is mobile-friendly and has a clean design.
 
 ## Technologies Used
