@@ -30,7 +30,7 @@ This project involves generating a detailed invoice based on various input param
 
 ## Technologies Used
 - **Frontend**: React, Vite, JavaScript, Tailwind CSS, Flowbite, firebase, to-words, Framer Motion, and MUI
-- **Backend**: Node.js, Express, jsonwebtoken,jsonwebtoken, and swagger-ui(API-Docometation)
+- **Backend**: Node.js, Express, jsonwebtoken,jsonwebtoken, and swagger-ui(API-Docometation), Lazy loading
 - **Database**: MongoDB
 - **State Management**: Redux
 - **Authentication**: Google OAuth

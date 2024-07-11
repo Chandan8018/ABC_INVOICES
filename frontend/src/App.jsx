@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/header/Header";
 import FooterComp from "./components/footer/FooterComp";
 import Home from "./pages/Home";
-import Contact from "./pages/Contact";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import PrivateRoute from "./components/privateroute/PrivateRoute";
@@ -12,7 +11,9 @@ import UpdateCustomer from "./pages/UpdateCustomer";
 import UpdateSupplier from "./pages/UpdateSupplier";
 import ViewInvoice from "./pages/ViewInvoice";
 import InvoicePdf from "./pages/InvoicePdf";
+import { lazy } from "react";
 
+const Contact = lazy(() => import("./pages/Contact"));
 function App() {
   return (
     <BrowserRouter>
