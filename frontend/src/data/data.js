@@ -6,7 +6,7 @@ export const Word = [
     text: "with",
   },
   {
-    text: "ABC INVOICES.",
+    text: "Us.",
     className: "text-blue-500 dark:text-blue-500",
   },
 ];

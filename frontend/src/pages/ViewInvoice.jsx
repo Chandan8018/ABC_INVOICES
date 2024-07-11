@@ -6,6 +6,7 @@ import { Alert, Table } from "flowbite-react";
 import CustomizedProgressBars from "../components/spinner/CustomizedProgressBars";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoicePdf from "./InvoicePdf";
+import { Button } from "../components/ui/moving-border";
 function ViewInvoice() {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
@@ -261,16 +262,19 @@ function ViewInvoice() {
                 {errorMessage}
               </Alert>
             )}
-            <div>
+            <Button
+              borderRadius='4px'
+              className='bg-red-500 text-white border-slate-800 h-10 rounded-[3px]'
+            >
               <PDFDownloadLink
                 document={<InvoicePdf orderNumber={orderNumber} />}
                 fileName='invoice.pdf'
               >
                 {({ loading }) =>
-                  loading ? "Loading document..." : "Download PDF"
+                  loading ? <CustomizedProgressBars /> : "Download PDF"
                 }
               </PDFDownloadLink>
-            </div>
+            </Button>
           </BackgroundGradient>
         )
       )}
