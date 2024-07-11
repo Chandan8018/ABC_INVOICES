@@ -265,7 +265,7 @@ function ViewInvoice() {
             <div className='flex justify-end mr-10 mt-3'>
               <Button
                 borderRadius='4px'
-                className='bg-transparent text-white border-slate-800 h-10 rounded-[3px]'
+                className='bg-transparent text-black dark:text-white border-slate-800 h-10 w-72 rounded-[3px]'
               >
                 <PDFDownloadLink
                   document={<InvoicePdf orderNumber={orderNumber} />}
