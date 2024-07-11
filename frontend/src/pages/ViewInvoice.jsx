@@ -263,19 +263,21 @@ function ViewInvoice() {
               </Alert>
             )}
             <div className='flex justify-end mr-10 mt-3'>
-              <Button
-                borderRadius='4px'
-                className='bg-transparent text-black dark:text-white border-slate-800 h-10 w-72 rounded-[3px]'
-              >
-                <PDFDownloadLink
-                  document={<InvoicePdf orderNumber={orderNumber} />}
-                  fileName='invoice.pdf'
+              <div className='h-10 w-64'>
+                <Button
+                  borderRadius='4px'
+                  className='bg-transparent text-black dark:text-white border-slate-800 h-10 w-64 rounded-[3px]'
                 >
-                  {({ loading }) =>
-                    loading ? <CustomizedProgressBars /> : "Download PDF"
-                  }
-                </PDFDownloadLink>
-              </Button>
+                  <PDFDownloadLink
+                    document={<InvoicePdf orderNumber={orderNumber} />}
+                    fileName='invoice.pdf'
+                  >
+                    {({ loading }) =>
+                      loading ? <CustomizedProgressBars /> : "Download PDF"
+                    }
+                  </PDFDownloadLink>
+                </Button>
+              </div>
             </div>
           </BackgroundGradient>
         )
