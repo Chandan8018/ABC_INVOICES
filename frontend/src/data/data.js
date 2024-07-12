@@ -121,7 +121,13 @@ export const ViewInvoiceTyping = [
 ];
 export const home = [
   {
-    text: "Get Started.",
+    text: "Welcome",
+  },
+  {
+    text: "to",
+  },
+  {
+    text: "ABC Invoice.",
     className: "text-blue-500 dark:text-blue-500",
   },
 ];
